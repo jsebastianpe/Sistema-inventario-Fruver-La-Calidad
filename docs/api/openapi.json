@@ -1,0 +1,7837 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "Gestión Comercial Fruver — API",
+  "description": "API REST del sistema de gestión comercial. Moneda: COP. Zona horaria: America/Bogota.",
+  "version": "0.1.0"
+ },
+ "paths": {
+  "/api/v1/health": {
+   "get": {
+    "tags": [
+     "Operación"
+    ],
+    "summary": "Health",
+    "operationId": "health_api_v1_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/auth/login": {
+   "post": {
+    "tags": [
+     "Autenticación"
+    ],
+    "summary": "Login",
+    "operationId": "login_api_v1_auth_login_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/LoginIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/MeOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/auth/logout": {
+   "post": {
+    "tags": [
+     "Autenticación"
+    ],
+    "summary": "Logout",
+    "operationId": "logout_api_v1_auth_logout_post",
+    "responses": {
+     "204": {
+      "description": "Successful Response"
+     }
+    }
+   }
+  },
+  "/api/v1/auth/me": {
+   "get": {
+    "tags": [
+     "Autenticación"
+    ],
+    "summary": "Me",
+    "operationId": "me_api_v1_auth_me_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/MeOut"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/auth/cambiar-contrasena": {
+   "post": {
+    "tags": [
+     "Autenticación"
+    ],
+    "summary": "Change Password",
+    "operationId": "change_password_api_v1_auth_cambiar_contrasena_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ChangePasswordIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "204": {
+      "description": "Successful Response"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/usuarios": {
+   "get": {
+    "tags": [
+     "Usuarios"
+    ],
+    "summary": "List Users",
+    "operationId": "list_users_api_v1_usuarios_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/UserOut"
+         },
+         "type": "array",
+         "title": "Response List Users Api V1 Usuarios Get"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "Usuarios"
+    ],
+    "summary": "Create User",
+    "operationId": "create_user_api_v1_usuarios_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/UserCreate"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/UserOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/usuarios/roles": {
+   "get": {
+    "tags": [
+     "Usuarios"
+    ],
+    "summary": "Roles",
+    "operationId": "roles_api_v1_usuarios_roles_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/usuarios/{user_id}": {
+   "patch": {
+    "tags": [
+     "Usuarios"
+    ],
+    "summary": "Update User",
+    "operationId": "update_user_api_v1_usuarios__user_id__patch",
+    "parameters": [
+     {
+      "name": "user_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "User Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/UserUpdate"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/UserOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/usuarios/{user_id}/restablecer-contrasena": {
+   "post": {
+    "tags": [
+     "Usuarios"
+    ],
+    "summary": "Reset Password",
+    "operationId": "reset_password_api_v1_usuarios__user_id__restablecer_contrasena_post",
+    "parameters": [
+     {
+      "name": "user_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "User Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ResetPasswordIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/UserOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/usuarios/{user_id}/permisos": {
+   "put": {
+    "tags": [
+     "Usuarios"
+    ],
+    "summary": "Set Grants",
+    "operationId": "set_grants_api_v1_usuarios__user_id__permisos_put",
+    "parameters": [
+     {
+      "name": "user_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "User Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/GrantsIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/UserOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/configuracion": {
+   "get": {
+    "tags": [
+     "Configuración"
+    ],
+    "summary": "Read",
+    "operationId": "read_api_v1_configuracion_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CommercialSettings"
+        }
+       }
+      }
+     }
+    }
+   },
+   "patch": {
+    "tags": [
+     "Configuración"
+    ],
+    "summary": "Update",
+    "operationId": "update_api_v1_configuracion_patch",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "additionalProperties": true,
+        "type": "object",
+        "title": "Changes"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CommercialSettings"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/unidades": {
+   "get": {
+    "tags": [
+     "Catálogo"
+    ],
+    "summary": "List Units",
+    "operationId": "list_units_api_v1_unidades_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/UnitOut"
+         },
+         "type": "array",
+         "title": "Response List Units Api V1 Unidades Get"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "Catálogo"
+    ],
+    "summary": "Create Unit",
+    "operationId": "create_unit_api_v1_unidades_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/UnitCreate"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/UnitOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/categorias": {
+   "get": {
+    "tags": [
+     "Catálogo"
+    ],
+    "summary": "List Categories",
+    "operationId": "list_categories_api_v1_categorias_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/CategoryOut"
+         },
+         "type": "array",
+         "title": "Response List Categories Api V1 Categorias Get"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "Catálogo"
+    ],
+    "summary": "Create Category",
+    "operationId": "create_category_api_v1_categorias_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CategoryIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CategoryOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/categorias/{cat_id}": {
+   "patch": {
+    "tags": [
+     "Catálogo"
+    ],
+    "summary": "Update Category",
+    "operationId": "update_category_api_v1_categorias__cat_id__patch",
+    "parameters": [
+     {
+      "name": "cat_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Cat Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CategoryUpdate"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CategoryOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/productos": {
+   "get": {
+    "tags": [
+     "Catálogo"
+    ],
+    "summary": "List Products",
+    "operationId": "list_products_api_v1_productos_get",
+    "parameters": [
+     {
+      "name": "q",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "maxLength": 100
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Q"
+      }
+     },
+     {
+      "name": "categoria_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Categoria Id"
+      }
+     },
+     {
+      "name": "proveedor_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Proveedor Id"
+      }
+     },
+     {
+      "name": "activo",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "boolean"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "default": true,
+       "title": "Activo"
+      }
+     },
+     {
+      "name": "bajo_minimo",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "boolean"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Bajo Minimo"
+      }
+     },
+     {
+      "name": "orden",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string",
+       "pattern": "^(name|sku|stock|-stock|updated)$",
+       "default": "name",
+       "title": "Orden"
+      }
+     },
+     {
+      "name": "page",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 1,
+       "default": 1,
+       "title": "Page"
+      }
+     },
+     {
+      "name": "page_size",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 25,
+       "title": "Page Size"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Page_Union_ProductCostOut__ProductOut__"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "Catálogo"
+    ],
+    "summary": "Create Product",
+    "operationId": "create_product_api_v1_productos_post",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ProductCreate"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "anyOf": [
+          {
+           "$ref": "#/components/schemas/ProductCostOut"
+          },
+          {
+           "$ref": "#/components/schemas/ProductOut"
+          }
+         ],
+         "title": "Response Create Product Api V1 Productos Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/productos/{product_id}": {
+   "get": {
+    "tags": [
+     "Catálogo"
+    ],
+    "summary": "Get Product",
+    "operationId": "get_product_api_v1_productos__product_id__get",
+    "parameters": [
+     {
+      "name": "product_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Product Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "anyOf": [
+          {
+           "$ref": "#/components/schemas/ProductCostOut"
+          },
+          {
+           "$ref": "#/components/schemas/ProductOut"
+          }
+         ],
+         "title": "Response Get Product Api V1 Productos  Product Id  Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "patch": {
+    "tags": [
+     "Catálogo"
+    ],
+    "summary": "Update Product",
+    "operationId": "update_product_api_v1_productos__product_id__patch",
+    "parameters": [
+     {
+      "name": "product_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Product Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ProductUpdate"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "anyOf": [
+          {
+           "$ref": "#/components/schemas/ProductCostOut"
+          },
+          {
+           "$ref": "#/components/schemas/ProductOut"
+          }
+         ],
+         "title": "Response Update Product Api V1 Productos  Product Id  Patch"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/productos/{product_id}/desactivar": {
+   "post": {
+    "tags": [
+     "Catálogo"
+    ],
+    "summary": "Deactivate",
+    "operationId": "deactivate_api_v1_productos__product_id__desactivar_post",
+    "parameters": [
+     {
+      "name": "product_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Product Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "anyOf": [
+          {
+           "$ref": "#/components/schemas/ProductCostOut"
+          },
+          {
+           "$ref": "#/components/schemas/ProductOut"
+          }
+         ],
+         "title": "Response Deactivate Api V1 Productos  Product Id  Desactivar Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/productos/{product_id}/activar": {
+   "post": {
+    "tags": [
+     "Catálogo"
+    ],
+    "summary": "Activate",
+    "operationId": "activate_api_v1_productos__product_id__activar_post",
+    "parameters": [
+     {
+      "name": "product_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Product Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "anyOf": [
+          {
+           "$ref": "#/components/schemas/ProductCostOut"
+          },
+          {
+           "$ref": "#/components/schemas/ProductOut"
+          }
+         ],
+         "title": "Response Activate Api V1 Productos  Product Id  Activar Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/productos/{product_id}/presentaciones": {
+   "post": {
+    "tags": [
+     "Catálogo"
+    ],
+    "summary": "Add Presentation",
+    "operationId": "add_presentation_api_v1_productos__product_id__presentaciones_post",
+    "parameters": [
+     {
+      "name": "product_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Product Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PresentationIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PresentationOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/productos/{product_id}/presentaciones/{pu_id}": {
+   "patch": {
+    "tags": [
+     "Catálogo"
+    ],
+    "summary": "Update Presentation",
+    "operationId": "update_presentation_api_v1_productos__product_id__presentaciones__pu_id__patch",
+    "parameters": [
+     {
+      "name": "product_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Product Id"
+      }
+     },
+     {
+      "name": "pu_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Pu Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PresentationUpdate"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PresentationOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/proveedores": {
+   "get": {
+    "tags": [
+     "Proveedores"
+    ],
+    "summary": "List Suppliers",
+    "operationId": "list_suppliers_api_v1_proveedores_get",
+    "parameters": [
+     {
+      "name": "q",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "maxLength": 100
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Q"
+      }
+     },
+     {
+      "name": "activo",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "boolean"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "default": true,
+       "title": "Activo"
+      }
+     },
+     {
+      "name": "page",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 1,
+       "default": 1,
+       "title": "Page"
+      }
+     },
+     {
+      "name": "page_size",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 25,
+       "title": "Page Size"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Page_SupplierOut_"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "Proveedores"
+    ],
+    "summary": "Create Supplier",
+    "operationId": "create_supplier_api_v1_proveedores_post",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SupplierIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SupplierOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/proveedores/{supplier_id}": {
+   "get": {
+    "tags": [
+     "Proveedores"
+    ],
+    "summary": "Get Supplier",
+    "operationId": "get_supplier_api_v1_proveedores__supplier_id__get",
+    "parameters": [
+     {
+      "name": "supplier_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Supplier Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SupplierOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "patch": {
+    "tags": [
+     "Proveedores"
+    ],
+    "summary": "Update Supplier",
+    "operationId": "update_supplier_api_v1_proveedores__supplier_id__patch",
+    "parameters": [
+     {
+      "name": "supplier_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Supplier Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SupplierUpdate"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SupplierOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/inventario/movimientos": {
+   "post": {
+    "tags": [
+     "Inventario"
+    ],
+    "summary": "Register Movement",
+    "operationId": "register_movement_api_v1_inventario_movimientos_post",
+    "parameters": [
+     {
+      "name": "Idempotency-Key",
+      "in": "header",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Idempotency-Key"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MovementIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/MovementOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "get": {
+    "tags": [
+     "Inventario"
+    ],
+    "summary": "List Movements",
+    "operationId": "list_movements_api_v1_inventario_movimientos_get",
+    "parameters": [
+     {
+      "name": "product_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Product Id"
+      }
+     },
+     {
+      "name": "tipo",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "$ref": "#/components/schemas/MovementType"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Tipo"
+      }
+     },
+     {
+      "name": "desde",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Desde"
+      }
+     },
+     {
+      "name": "hasta",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Hasta"
+      }
+     },
+     {
+      "name": "referencia_tipo",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "maxLength": 30
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Referencia Tipo"
+      }
+     },
+     {
+      "name": "referencia_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Referencia Id"
+      }
+     },
+     {
+      "name": "page",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 1,
+       "default": 1,
+       "title": "Page"
+      }
+     },
+     {
+      "name": "page_size",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 25,
+       "title": "Page Size"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Page_MovementOut_"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/inventario/movimientos/{movement_id}/revertir": {
+   "post": {
+    "tags": [
+     "Inventario"
+    ],
+    "summary": "Reverse Movement",
+    "operationId": "reverse_movement_api_v1_inventario_movimientos__movement_id__revertir_post",
+    "parameters": [
+     {
+      "name": "movement_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Movement Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ReverseIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/MovementOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/inventario/lotes": {
+   "get": {
+    "tags": [
+     "Inventario"
+    ],
+    "summary": "List Lots",
+    "operationId": "list_lots_api_v1_inventario_lotes_get",
+    "parameters": [
+     {
+      "name": "product_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Product Id"
+      }
+     },
+     {
+      "name": "vence_en_dias",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer",
+         "maximum": 365,
+         "minimum": 0
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Vence En Dias"
+      }
+     },
+     {
+      "name": "solo_abiertos",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": true,
+       "title": "Solo Abiertos"
+      }
+     },
+     {
+      "name": "page",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 1,
+       "default": 1,
+       "title": "Page"
+      }
+     },
+     {
+      "name": "page_size",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 25,
+       "title": "Page Size"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Page_LotOut_"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/compras": {
+   "get": {
+    "tags": [
+     "Compras"
+    ],
+    "summary": "List Purchases",
+    "operationId": "list_purchases_api_v1_compras_get",
+    "parameters": [
+     {
+      "name": "proveedor_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Proveedor Id"
+      }
+     },
+     {
+      "name": "producto_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Producto Id"
+      }
+     },
+     {
+      "name": "estado",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "$ref": "#/components/schemas/PurchaseStatus"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Estado"
+      }
+     },
+     {
+      "name": "desde",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Desde"
+      }
+     },
+     {
+      "name": "hasta",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Hasta"
+      }
+     },
+     {
+      "name": "factura",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Factura"
+      }
+     },
+     {
+      "name": "page",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 1,
+       "default": 1,
+       "title": "Page"
+      }
+     },
+     {
+      "name": "page_size",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 25,
+       "title": "Page Size"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Page_PurchaseOut_"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "Compras"
+    ],
+    "summary": "Create Purchase",
+    "operationId": "create_purchase_api_v1_compras_post",
+    "parameters": [
+     {
+      "name": "Idempotency-Key",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "pattern": "^[A-Za-z0-9_-]{8,80}$"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Idempotency-Key"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PurchaseIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PurchaseOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/compras/{purchase_id}": {
+   "get": {
+    "tags": [
+     "Compras"
+    ],
+    "summary": "Get Purchase",
+    "operationId": "get_purchase_api_v1_compras__purchase_id__get",
+    "parameters": [
+     {
+      "name": "purchase_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Purchase Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PurchaseOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "put": {
+    "tags": [
+     "Compras"
+    ],
+    "summary": "Update Purchase",
+    "operationId": "update_purchase_api_v1_compras__purchase_id__put",
+    "parameters": [
+     {
+      "name": "purchase_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Purchase Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PurchaseIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PurchaseOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/compras/previsualizar": {
+   "post": {
+    "tags": [
+     "Compras"
+    ],
+    "summary": "Preview Purchase",
+    "description": "Calcula totales, reparto y costo efectivo con las reglas del servidor, sin guardar.",
+    "operationId": "preview_purchase_api_v1_compras_previsualizar_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PurchaseIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/compras/{purchase_id}/confirmar": {
+   "post": {
+    "tags": [
+     "Compras"
+    ],
+    "summary": "Confirm Purchase",
+    "operationId": "confirm_purchase_api_v1_compras__purchase_id__confirmar_post",
+    "parameters": [
+     {
+      "name": "purchase_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Purchase Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PurchaseOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/compras/{purchase_id}/anular": {
+   "post": {
+    "tags": [
+     "Compras"
+    ],
+    "summary": "Cancel Purchase",
+    "operationId": "cancel_purchase_api_v1_compras__purchase_id__anular_post",
+    "parameters": [
+     {
+      "name": "purchase_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Purchase Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CancelIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PurchaseOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/ventas/previsualizar": {
+   "post": {
+    "tags": [
+     "Ventas"
+    ],
+    "summary": "Preview Sale",
+    "description": "Calcula precios y totales con las reglas del servidor, sin registrar nada.",
+    "operationId": "preview_sale_api_v1_ventas_previsualizar_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SaleIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/ventas": {
+   "post": {
+    "tags": [
+     "Ventas"
+    ],
+    "summary": "Create Sale",
+    "operationId": "create_sale_api_v1_ventas_post",
+    "parameters": [
+     {
+      "name": "Idempotency-Key",
+      "in": "header",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Idempotency-Key"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SaleIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SaleOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "get": {
+    "tags": [
+     "Ventas"
+    ],
+    "summary": "List Sales",
+    "description": "Los empleados solo ven sus propias ventas.",
+    "operationId": "list_sales_api_v1_ventas_get",
+    "parameters": [
+     {
+      "name": "desde",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Desde"
+      }
+     },
+     {
+      "name": "hasta",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Hasta"
+      }
+     },
+     {
+      "name": "estado",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "$ref": "#/components/schemas/SaleStatus"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Estado"
+      }
+     },
+     {
+      "name": "usuario_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Usuario Id"
+      }
+     },
+     {
+      "name": "producto_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Producto Id"
+      }
+     },
+     {
+      "name": "q",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "maxLength": 60
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Q"
+      }
+     },
+     {
+      "name": "page",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 1,
+       "default": 1,
+       "title": "Page"
+      }
+     },
+     {
+      "name": "page_size",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 25,
+       "title": "Page Size"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Page_SaleOut_"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/ventas/{sale_id}": {
+   "get": {
+    "tags": [
+     "Ventas"
+    ],
+    "summary": "Get Sale",
+    "operationId": "get_sale_api_v1_ventas__sale_id__get",
+    "parameters": [
+     {
+      "name": "sale_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Sale Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SaleOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/ventas/{sale_id}/anular": {
+   "post": {
+    "tags": [
+     "Ventas"
+    ],
+    "summary": "Cancel Sale",
+    "operationId": "cancel_sale_api_v1_ventas__sale_id__anular_post",
+    "parameters": [
+     {
+      "name": "sale_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Sale Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CancelIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SaleOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/precios/sugerencias": {
+   "get": {
+    "tags": [
+     "Precios"
+    ],
+    "summary": "List Suggestions",
+    "operationId": "list_suggestions_api_v1_precios_sugerencias_get",
+    "parameters": [
+     {
+      "name": "estado",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "$ref": "#/components/schemas/SuggestionStatus"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "default": "pendiente",
+       "title": "Estado"
+      }
+     },
+     {
+      "name": "product_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Product Id"
+      }
+     },
+     {
+      "name": "page",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 1,
+       "default": 1,
+       "title": "Page"
+      }
+     },
+     {
+      "name": "page_size",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 25,
+       "title": "Page Size"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Page_SuggestionOut_"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/precios/sugerencias/generar": {
+   "post": {
+    "tags": [
+     "Precios"
+    ],
+    "summary": "Generate",
+    "operationId": "generate_api_v1_precios_sugerencias_generar_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/GenerateIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/precios/sugerencias/{sid}/aprobar": {
+   "post": {
+    "tags": [
+     "Precios"
+    ],
+    "summary": "Approve",
+    "operationId": "approve_api_v1_precios_sugerencias__sid__aprobar_post",
+    "parameters": [
+     {
+      "name": "sid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Sid"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DecisionIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SuggestionOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/precios/sugerencias/{sid}/rechazar": {
+   "post": {
+    "tags": [
+     "Precios"
+    ],
+    "summary": "Reject",
+    "operationId": "reject_api_v1_precios_sugerencias__sid__rechazar_post",
+    "parameters": [
+     {
+      "name": "sid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Sid"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DecisionIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SuggestionOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/precios/productos/{product_id}": {
+   "post": {
+    "tags": [
+     "Precios"
+    ],
+    "summary": "Set Manual Price",
+    "operationId": "set_manual_price_api_v1_precios_productos__product_id__post",
+    "parameters": [
+     {
+      "name": "product_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Product Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ManualPriceIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "anyOf": [
+          {
+           "$ref": "#/components/schemas/HistoryOut"
+          },
+          {
+           "type": "null"
+          }
+         ],
+         "title": "Response Set Manual Price Api V1 Precios Productos  Product Id  Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/precios/historial": {
+   "get": {
+    "tags": [
+     "Precios"
+    ],
+    "summary": "History",
+    "operationId": "history_api_v1_precios_historial_get",
+    "parameters": [
+     {
+      "name": "product_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Product Id"
+      }
+     },
+     {
+      "name": "page",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 1,
+       "default": 1,
+       "title": "Page"
+      }
+     },
+     {
+      "name": "page_size",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 25,
+       "title": "Page Size"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Page_HistoryOut_"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/mercado/estado": {
+   "get": {
+    "tags": [
+     "Precios de mercado"
+    ],
+    "summary": "Status",
+    "operationId": "status_api_v1_mercado_estado_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/mercado/sincronizar": {
+   "post": {
+    "tags": [
+     "Precios de mercado"
+    ],
+    "summary": "Request Sync",
+    "description": "Encola la actualización; el proceso `worker` la ejecuta (no bloquea la aplicación).",
+    "operationId": "request_sync_api_v1_mercado_sincronizar_post",
+    "parameters": [
+     {
+      "name": "fuente",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string",
+       "maxLength": 40,
+       "default": "sipsa_ciudad",
+       "title": "Fuente"
+      }
+     }
+    ],
+    "responses": {
+     "202": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/mercado/productos-externos": {
+   "get": {
+    "tags": [
+     "Precios de mercado"
+    ],
+    "summary": "External Products",
+    "operationId": "external_products_api_v1_mercado_productos_externos_get",
+    "parameters": [
+     {
+      "name": "q",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "maxLength": 60
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Q"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/ExternalProductOut"
+         },
+         "title": "Response External Products Api V1 Mercado Productos Externos Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/mercado/productos-externos/{mp_id}": {
+   "patch": {
+    "tags": [
+     "Precios de mercado"
+    ],
+    "summary": "Confirm Unit",
+    "operationId": "confirm_unit_api_v1_mercado_productos_externos__mp_id__patch",
+    "parameters": [
+     {
+      "name": "mp_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Mp Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ConfirmUnitIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ExternalProductOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/mercado/mercados": {
+   "get": {
+    "tags": [
+     "Precios de mercado"
+    ],
+    "summary": "Markets",
+    "operationId": "markets_api_v1_mercado_mercados_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "type": "string"
+         },
+         "type": "array",
+         "title": "Response Markets Api V1 Mercado Mercados Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/mercado/cotizaciones": {
+   "get": {
+    "tags": [
+     "Precios de mercado"
+    ],
+    "summary": "Quotes",
+    "operationId": "quotes_api_v1_mercado_cotizaciones_get",
+    "parameters": [
+     {
+      "name": "market_product_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Market Product Id"
+      }
+     },
+     {
+      "name": "mercado",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "maxLength": 120
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Mercado"
+      }
+     },
+     {
+      "name": "desde",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Desde"
+      }
+     },
+     {
+      "name": "hasta",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Hasta"
+      }
+     },
+     {
+      "name": "solo_variaciones",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": false,
+       "title": "Solo Variaciones"
+      }
+     },
+     {
+      "name": "page",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 1,
+       "default": 1,
+       "title": "Page"
+      }
+     },
+     {
+      "name": "page_size",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 25,
+       "title": "Page Size"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Page_QuoteOut_"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/mercado/correspondencias": {
+   "get": {
+    "tags": [
+     "Precios de mercado"
+    ],
+    "summary": "List Mappings",
+    "operationId": "list_mappings_api_v1_mercado_correspondencias_get",
+    "parameters": [
+     {
+      "name": "product_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Product Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/MappingOut"
+         },
+         "title": "Response List Mappings Api V1 Mercado Correspondencias Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "Precios de mercado"
+    ],
+    "summary": "Create Mapping",
+    "operationId": "create_mapping_api_v1_mercado_correspondencias_post",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MappingIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/MappingOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/mercado/correspondencias/{mid}": {
+   "patch": {
+    "tags": [
+     "Precios de mercado"
+    ],
+    "summary": "Update Mapping",
+    "operationId": "update_mapping_api_v1_mercado_correspondencias__mid__patch",
+    "parameters": [
+     {
+      "name": "mid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Mid"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MappingUpdate"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/MappingOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/mercado/referencias": {
+   "get": {
+    "tags": [
+     "Precios de mercado"
+    ],
+    "summary": "References",
+    "description": "Última cotización por correspondencia, con su fecha y si es utilizable.",
+    "operationId": "references_api_v1_mercado_referencias_get",
+    "parameters": [
+     {
+      "name": "product_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Product Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/ReferenceOut"
+         },
+         "title": "Response References Api V1 Mercado Referencias Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/panel": {
+   "get": {
+    "tags": [
+     "Reportes"
+    ],
+    "summary": "Dashboard",
+    "operationId": "dashboard_api_v1_panel_get",
+    "parameters": [
+     {
+      "name": "desde",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Desde"
+      }
+     },
+     {
+      "name": "hasta",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Hasta"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/alertas": {
+   "get": {
+    "tags": [
+     "Reportes"
+    ],
+    "summary": "Alerts",
+    "operationId": "alerts_api_v1_alertas_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/reportes": {
+   "get": {
+    "tags": [
+     "Reportes"
+    ],
+    "summary": "Catalog",
+    "description": "Reportes disponibles para el usuario actual.",
+    "operationId": "catalog_api_v1_reportes_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/reportes/{nombre}": {
+   "get": {
+    "tags": [
+     "Reportes"
+    ],
+    "summary": "Report",
+    "operationId": "report_api_v1_reportes__nombre__get",
+    "parameters": [
+     {
+      "name": "nombre",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Nombre"
+      }
+     },
+     {
+      "name": "desde",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Desde"
+      }
+     },
+     {
+      "name": "hasta",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Hasta"
+      }
+     },
+     {
+      "name": "product_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Product Id"
+      }
+     },
+     {
+      "name": "category_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Category Id"
+      }
+     },
+     {
+      "name": "supplier_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Supplier Id"
+      }
+     },
+     {
+      "name": "mercado",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "maxLength": 120
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Mercado"
+      }
+     },
+     {
+      "name": "formato",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string",
+       "pattern": "^(json|csv|xlsx)$",
+       "default": "json",
+       "title": "Formato"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "AllocationMethod": {
+    "type": "string",
+    "enum": [
+     "valor",
+     "peso"
+    ],
+    "title": "AllocationMethod"
+   },
+   "CancelIn": {
+    "properties": {
+     "reason": {
+      "type": "string",
+      "maxLength": 300,
+      "minLength": 3,
+      "title": "Reason"
+     }
+    },
+    "type": "object",
+    "required": [
+     "reason"
+    ],
+    "title": "CancelIn"
+   },
+   "CategoryIn": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "target_margin": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMaximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Target Margin"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "name"
+    ],
+    "title": "CategoryIn"
+   },
+   "CategoryOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "target_margin": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Target Margin"
+     },
+     "is_active": {
+      "type": "boolean",
+      "title": "Is Active"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "name",
+     "target_margin",
+     "is_active"
+    ],
+    "title": "CategoryOut"
+   },
+   "CategoryUpdate": {
+    "properties": {
+     "name": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 120,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Name"
+     },
+     "target_margin": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMaximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Target Margin"
+     },
+     "is_active": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Is Active"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "CategoryUpdate"
+   },
+   "ChangePasswordIn": {
+    "properties": {
+     "current_password": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Current Password"
+     },
+     "new_password": {
+      "type": "string",
+      "maxLength": 200,
+      "title": "New Password"
+     }
+    },
+    "type": "object",
+    "required": [
+     "current_password",
+     "new_password"
+    ],
+    "title": "ChangePasswordIn"
+   },
+   "CommercialSettings": {
+    "properties": {
+     "default_margin": {
+      "type": "string",
+      "title": "Default Margin",
+      "default": "0.30"
+     },
+     "sales_commission_rate": {
+      "type": "string",
+      "title": "Sales Commission Rate",
+      "default": "0"
+     },
+     "rounding_step": {
+      "type": "string",
+      "title": "Rounding Step",
+      "default": "50"
+     },
+     "rounding_mode": {
+      "type": "string",
+      "enum": [
+       "arriba",
+       "abajo",
+       "cercano"
+      ],
+      "title": "Rounding Mode",
+      "default": "arriba"
+     },
+     "price_change_alert_rate": {
+      "type": "string",
+      "title": "Price Change Alert Rate",
+      "default": "0.15"
+     },
+     "auto_price_update_enabled": {
+      "type": "boolean",
+      "title": "Auto Price Update Enabled",
+      "default": false
+     },
+     "auto_price_max_change_rate": {
+      "type": "string",
+      "title": "Auto Price Max Change Rate",
+      "default": "0.10"
+     },
+     "purchase_tax_in_cost": {
+      "type": "boolean",
+      "title": "Purchase Tax In Cost",
+      "default": true
+     },
+     "allow_negative_stock": {
+      "type": "boolean",
+      "title": "Allow Negative Stock",
+      "default": false
+     },
+     "expiry_alert_days": {
+      "type": "integer",
+      "maximum": 60.0,
+      "minimum": 0.0,
+      "title": "Expiry Alert Days",
+      "default": 3
+     },
+     "employee_max_discount_rate": {
+      "type": "string",
+      "title": "Employee Max Discount Rate",
+      "default": "0.05"
+     },
+     "market_sync_enabled": {
+      "type": "boolean",
+      "title": "Market Sync Enabled",
+      "default": true
+     },
+     "stale_quote_days": {
+      "type": "integer",
+      "maximum": 60.0,
+      "minimum": 1.0,
+      "title": "Stale Quote Days",
+      "default": 3
+     },
+     "market_variation_alert_rate": {
+      "type": "string",
+      "title": "Market Variation Alert Rate",
+      "default": "0.20"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "CommercialSettings"
+   },
+   "ConfirmUnitIn": {
+    "properties": {
+     "price_unit_code": {
+      "type": "string",
+      "title": "Price Unit Code",
+      "description": "Código de la unidad en que la fuente publica el precio"
+     }
+    },
+    "type": "object",
+    "required": [
+     "price_unit_code"
+    ],
+    "title": "ConfirmUnitIn"
+   },
+   "DecisionIn": {
+    "properties": {
+     "note": {
+      "type": "string",
+      "maxLength": 500,
+      "minLength": 3,
+      "title": "Note",
+      "description": "Justificación"
+     },
+     "final_price": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Final Price",
+      "description": "Precio distinto al sugerido (opcional)"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "note"
+    ],
+    "title": "DecisionIn"
+   },
+   "ExternalProductOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "source_id": {
+      "type": "integer",
+      "title": "Source Id"
+     },
+     "external_code": {
+      "type": "string",
+      "title": "External Code"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "price_unit_code": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Price Unit Code"
+     },
+     "unit_confirmed_at": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Unit Confirmed At"
+     },
+     "latest_price_date": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Latest Price Date"
+     },
+     "markets": {
+      "type": "integer",
+      "title": "Markets"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "source_id",
+     "external_code",
+     "name",
+     "price_unit_code",
+     "unit_confirmed_at",
+     "latest_price_date",
+     "markets"
+    ],
+    "title": "ExternalProductOut"
+   },
+   "GenerateIn": {
+    "properties": {
+     "product_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "integer"
+        },
+        "type": "array"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Product Ids",
+      "description": "Vacío = todos los productos activos"
+     }
+    },
+    "type": "object",
+    "title": "GenerateIn"
+   },
+   "GrantsIn": {
+    "properties": {
+     "permisos": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Permisos"
+     }
+    },
+    "type": "object",
+    "required": [
+     "permisos"
+    ],
+    "title": "GrantsIn"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "HistoryOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "product_id": {
+      "type": "integer",
+      "title": "Product Id"
+     },
+     "product_name": {
+      "type": "string",
+      "title": "Product Name",
+      "default": ""
+     },
+     "old_price": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Old Price"
+     },
+     "new_price": {
+      "type": "string",
+      "title": "New Price"
+     },
+     "source": {
+      "$ref": "#/components/schemas/PriceChangeSource"
+     },
+     "suggestion_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Suggestion Id"
+     },
+     "justification": {
+      "type": "string",
+      "title": "Justification"
+     },
+     "changed_by_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Changed By Id"
+     },
+     "changed_by_name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Changed By Name"
+     },
+     "changed_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Changed At"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "product_id",
+     "old_price",
+     "new_price",
+     "source",
+     "suggestion_id",
+     "justification",
+     "changed_by_id",
+     "changed_at"
+    ],
+    "title": "HistoryOut"
+   },
+   "LoginIn": {
+    "properties": {
+     "username": {
+      "type": "string",
+      "maxLength": 50,
+      "minLength": 1,
+      "title": "Username"
+     },
+     "password": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Password"
+     }
+    },
+    "type": "object",
+    "required": [
+     "username",
+     "password"
+    ],
+    "title": "LoginIn"
+   },
+   "LotOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "product_id": {
+      "type": "integer",
+      "title": "Product Id"
+     },
+     "product_name": {
+      "type": "string",
+      "title": "Product Name",
+      "default": ""
+     },
+     "code": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Code"
+     },
+     "received_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Received At"
+     },
+     "expiry_date": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Expiry Date"
+     },
+     "initial_qty": {
+      "type": "string",
+      "title": "Initial Qty"
+     },
+     "remaining_qty": {
+      "type": "string",
+      "title": "Remaining Qty"
+     },
+     "days_to_expiry": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Days To Expiry"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "product_id",
+     "code",
+     "received_at",
+     "expiry_date",
+     "initial_qty",
+     "remaining_qty"
+    ],
+    "title": "LotOut"
+   },
+   "ManualPriceIn": {
+    "properties": {
+     "new_price": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "New Price"
+     },
+     "justification": {
+      "type": "string",
+      "maxLength": 500,
+      "minLength": 3,
+      "title": "Justification"
+     },
+     "confirm_large_change": {
+      "type": "boolean",
+      "title": "Confirm Large Change",
+      "default": false
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "new_price",
+     "justification"
+    ],
+    "title": "ManualPriceIn"
+   },
+   "MappingIn": {
+    "properties": {
+     "product_id": {
+      "type": "integer",
+      "title": "Product Id"
+     },
+     "market_product_id": {
+      "type": "integer",
+      "title": "Market Product Id"
+     },
+     "market": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 2,
+      "title": "Market"
+     },
+     "conversion_factor": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMinimum": 0.0
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Conversion Factor",
+      "description": "precio por unidad base del producto = precio publicado × factor"
+     },
+     "notes": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 300
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Notes"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "product_id",
+     "market_product_id",
+     "market",
+     "conversion_factor"
+    ],
+    "title": "MappingIn"
+   },
+   "MappingOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "product_id": {
+      "type": "integer",
+      "title": "Product Id"
+     },
+     "product_name": {
+      "type": "string",
+      "title": "Product Name",
+      "default": ""
+     },
+     "market_product_id": {
+      "type": "integer",
+      "title": "Market Product Id"
+     },
+     "market_product_name": {
+      "type": "string",
+      "title": "Market Product Name",
+      "default": ""
+     },
+     "market": {
+      "type": "string",
+      "title": "Market"
+     },
+     "conversion_factor": {
+      "type": "string",
+      "title": "Conversion Factor"
+     },
+     "notes": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Notes"
+     },
+     "is_active": {
+      "type": "boolean",
+      "title": "Is Active"
+     },
+     "confirmed_by_id": {
+      "type": "integer",
+      "title": "Confirmed By Id"
+     },
+     "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Updated At"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "product_id",
+     "market_product_id",
+     "market",
+     "conversion_factor",
+     "notes",
+     "is_active",
+     "confirmed_by_id",
+     "updated_at"
+    ],
+    "title": "MappingOut"
+   },
+   "MappingUpdate": {
+    "properties": {
+     "conversion_factor": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMinimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Conversion Factor"
+     },
+     "notes": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 300
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Notes"
+     },
+     "is_active": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Is Active"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "MappingUpdate"
+   },
+   "MeOut": {
+    "properties": {
+     "usuario": {
+      "$ref": "#/components/schemas/UserOut"
+     },
+     "permisos": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Permisos"
+     },
+     "csrf_token": {
+      "type": "string",
+      "title": "Csrf Token"
+     }
+    },
+    "type": "object",
+    "required": [
+     "usuario",
+     "permisos",
+     "csrf_token"
+    ],
+    "title": "MeOut"
+   },
+   "MovementIn": {
+    "properties": {
+     "product_id": {
+      "type": "integer",
+      "title": "Product Id"
+     },
+     "tipo": {
+      "type": "string",
+      "enum": [
+       "inicial",
+       "merma",
+       "ajuste_entrada",
+       "ajuste_salida",
+       "devolucion_cliente",
+       "devolucion_proveedor"
+      ],
+      "title": "Tipo"
+     },
+     "cantidad": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMinimum": 0.0
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Cantidad"
+     },
+     "product_unit_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Product Unit Id",
+      "description": "Presentación; por defecto la unidad base"
+     },
+     "costo_unitario": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Costo Unitario",
+      "description": "Costo por presentación (solo entradas). Si se omite se usa el costo promedio."
+     },
+     "motivo": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 200
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Motivo"
+     },
+     "notas": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Notas"
+     },
+     "fecha_vencimiento": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Fecha Vencimiento"
+     },
+     "lote": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 40
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lote"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "product_id",
+     "tipo",
+     "cantidad"
+    ],
+    "title": "MovementIn"
+   },
+   "MovementOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "product_id": {
+      "type": "integer",
+      "title": "Product Id"
+     },
+     "product_name": {
+      "type": "string",
+      "title": "Product Name",
+      "default": ""
+     },
+     "movement_type": {
+      "$ref": "#/components/schemas/MovementType"
+     },
+     "product_unit_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Product Unit Id"
+     },
+     "quantity": {
+      "type": "string",
+      "title": "Quantity"
+     },
+     "quantity_base": {
+      "type": "string",
+      "title": "Quantity Base"
+     },
+     "balance_after": {
+      "type": "string",
+      "title": "Balance After"
+     },
+     "reference_type": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Reference Type"
+     },
+     "reference_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Reference Id"
+     },
+     "reason": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Reason"
+     },
+     "notes": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Notes"
+     },
+     "reverses_movement_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Reverses Movement Id"
+     },
+     "user_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "User Id"
+     },
+     "user_name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "User Name"
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+     },
+     "unit_cost": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Unit Cost"
+     },
+     "total_cost": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Total Cost"
+     },
+     "avg_cost_after": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Avg Cost After"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "product_id",
+     "movement_type",
+     "product_unit_id",
+     "quantity",
+     "quantity_base",
+     "balance_after",
+     "reference_type",
+     "reference_id",
+     "reason",
+     "notes",
+     "reverses_movement_id",
+     "user_id",
+     "created_at"
+    ],
+    "title": "MovementOut"
+   },
+   "MovementType": {
+    "type": "string",
+    "enum": [
+     "inicial",
+     "compra",
+     "venta",
+     "devolucion_cliente",
+     "devolucion_proveedor",
+     "merma",
+     "ajuste_entrada",
+     "ajuste_salida",
+     "anulacion_compra",
+     "anulacion_venta",
+     "reversion"
+    ],
+    "title": "MovementType"
+   },
+   "Page_HistoryOut_": {
+    "properties": {
+     "items": {
+      "items": {
+       "$ref": "#/components/schemas/HistoryOut"
+      },
+      "type": "array",
+      "title": "Items"
+     },
+     "total": {
+      "type": "integer",
+      "title": "Total"
+     },
+     "page": {
+      "type": "integer",
+      "title": "Page"
+     },
+     "page_size": {
+      "type": "integer",
+      "title": "Page Size"
+     }
+    },
+    "type": "object",
+    "required": [
+     "items",
+     "total",
+     "page",
+     "page_size"
+    ],
+    "title": "Page[HistoryOut]"
+   },
+   "Page_LotOut_": {
+    "properties": {
+     "items": {
+      "items": {
+       "$ref": "#/components/schemas/LotOut"
+      },
+      "type": "array",
+      "title": "Items"
+     },
+     "total": {
+      "type": "integer",
+      "title": "Total"
+     },
+     "page": {
+      "type": "integer",
+      "title": "Page"
+     },
+     "page_size": {
+      "type": "integer",
+      "title": "Page Size"
+     }
+    },
+    "type": "object",
+    "required": [
+     "items",
+     "total",
+     "page",
+     "page_size"
+    ],
+    "title": "Page[LotOut]"
+   },
+   "Page_MovementOut_": {
+    "properties": {
+     "items": {
+      "items": {
+       "$ref": "#/components/schemas/MovementOut"
+      },
+      "type": "array",
+      "title": "Items"
+     },
+     "total": {
+      "type": "integer",
+      "title": "Total"
+     },
+     "page": {
+      "type": "integer",
+      "title": "Page"
+     },
+     "page_size": {
+      "type": "integer",
+      "title": "Page Size"
+     }
+    },
+    "type": "object",
+    "required": [
+     "items",
+     "total",
+     "page",
+     "page_size"
+    ],
+    "title": "Page[MovementOut]"
+   },
+   "Page_PurchaseOut_": {
+    "properties": {
+     "items": {
+      "items": {
+       "$ref": "#/components/schemas/PurchaseOut"
+      },
+      "type": "array",
+      "title": "Items"
+     },
+     "total": {
+      "type": "integer",
+      "title": "Total"
+     },
+     "page": {
+      "type": "integer",
+      "title": "Page"
+     },
+     "page_size": {
+      "type": "integer",
+      "title": "Page Size"
+     }
+    },
+    "type": "object",
+    "required": [
+     "items",
+     "total",
+     "page",
+     "page_size"
+    ],
+    "title": "Page[PurchaseOut]"
+   },
+   "Page_QuoteOut_": {
+    "properties": {
+     "items": {
+      "items": {
+       "$ref": "#/components/schemas/QuoteOut"
+      },
+      "type": "array",
+      "title": "Items"
+     },
+     "total": {
+      "type": "integer",
+      "title": "Total"
+     },
+     "page": {
+      "type": "integer",
+      "title": "Page"
+     },
+     "page_size": {
+      "type": "integer",
+      "title": "Page Size"
+     }
+    },
+    "type": "object",
+    "required": [
+     "items",
+     "total",
+     "page",
+     "page_size"
+    ],
+    "title": "Page[QuoteOut]"
+   },
+   "Page_SaleOut_": {
+    "properties": {
+     "items": {
+      "items": {
+       "$ref": "#/components/schemas/SaleOut"
+      },
+      "type": "array",
+      "title": "Items"
+     },
+     "total": {
+      "type": "integer",
+      "title": "Total"
+     },
+     "page": {
+      "type": "integer",
+      "title": "Page"
+     },
+     "page_size": {
+      "type": "integer",
+      "title": "Page Size"
+     }
+    },
+    "type": "object",
+    "required": [
+     "items",
+     "total",
+     "page",
+     "page_size"
+    ],
+    "title": "Page[SaleOut]"
+   },
+   "Page_SuggestionOut_": {
+    "properties": {
+     "items": {
+      "items": {
+       "$ref": "#/components/schemas/SuggestionOut"
+      },
+      "type": "array",
+      "title": "Items"
+     },
+     "total": {
+      "type": "integer",
+      "title": "Total"
+     },
+     "page": {
+      "type": "integer",
+      "title": "Page"
+     },
+     "page_size": {
+      "type": "integer",
+      "title": "Page Size"
+     }
+    },
+    "type": "object",
+    "required": [
+     "items",
+     "total",
+     "page",
+     "page_size"
+    ],
+    "title": "Page[SuggestionOut]"
+   },
+   "Page_SupplierOut_": {
+    "properties": {
+     "items": {
+      "items": {
+       "$ref": "#/components/schemas/SupplierOut"
+      },
+      "type": "array",
+      "title": "Items"
+     },
+     "total": {
+      "type": "integer",
+      "title": "Total"
+     },
+     "page": {
+      "type": "integer",
+      "title": "Page"
+     },
+     "page_size": {
+      "type": "integer",
+      "title": "Page Size"
+     }
+    },
+    "type": "object",
+    "required": [
+     "items",
+     "total",
+     "page",
+     "page_size"
+    ],
+    "title": "Page[SupplierOut]"
+   },
+   "Page_Union_ProductCostOut__ProductOut__": {
+    "properties": {
+     "items": {
+      "items": {
+       "anyOf": [
+        {
+         "$ref": "#/components/schemas/ProductCostOut"
+        },
+        {
+         "$ref": "#/components/schemas/ProductOut"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Items"
+     },
+     "total": {
+      "type": "integer",
+      "title": "Total"
+     },
+     "page": {
+      "type": "integer",
+      "title": "Page"
+     },
+     "page_size": {
+      "type": "integer",
+      "title": "Page Size"
+     }
+    },
+    "type": "object",
+    "required": [
+     "items",
+     "total",
+     "page",
+     "page_size"
+    ],
+    "title": "Page[Union[ProductCostOut, ProductOut]]"
+   },
+   "PaymentMethod": {
+    "type": "string",
+    "enum": [
+     "efectivo",
+     "transferencia",
+     "tarjeta",
+     "otro"
+    ],
+    "title": "PaymentMethod"
+   },
+   "PresentationIn": {
+    "properties": {
+     "unit_id": {
+      "type": "integer",
+      "title": "Unit Id"
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "factor_to_base": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMinimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Factor To Base",
+      "description": "Unidades base que contiene. Obligatorio salvo entre unidades de masa."
+     },
+     "for_purchase": {
+      "type": "boolean",
+      "title": "For Purchase",
+      "default": true
+     },
+     "for_sale": {
+      "type": "boolean",
+      "title": "For Sale",
+      "default": true
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "unit_id",
+     "name"
+    ],
+    "title": "PresentationIn"
+   },
+   "PresentationOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "unit_id": {
+      "type": "integer",
+      "title": "Unit Id"
+     },
+     "unit_code": {
+      "type": "string",
+      "title": "Unit Code",
+      "default": ""
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "factor_to_base": {
+      "type": "string",
+      "title": "Factor To Base"
+     },
+     "is_base": {
+      "type": "boolean",
+      "title": "Is Base"
+     },
+     "for_purchase": {
+      "type": "boolean",
+      "title": "For Purchase"
+     },
+     "for_sale": {
+      "type": "boolean",
+      "title": "For Sale"
+     },
+     "is_active": {
+      "type": "boolean",
+      "title": "Is Active"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "unit_id",
+     "name",
+     "factor_to_base",
+     "is_base",
+     "for_purchase",
+     "for_sale",
+     "is_active"
+    ],
+    "title": "PresentationOut"
+   },
+   "PresentationUpdate": {
+    "properties": {
+     "name": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 120,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Name"
+     },
+     "factor_to_base": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMinimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Factor To Base"
+     },
+     "for_purchase": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "For Purchase"
+     },
+     "for_sale": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "For Sale"
+     },
+     "is_active": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Is Active"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "PresentationUpdate"
+   },
+   "PriceChangeSource": {
+    "type": "string",
+    "enum": [
+     "manual",
+     "sugerencia",
+     "automatica"
+    ],
+    "title": "PriceChangeSource"
+   },
+   "ProductCostOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "sku": {
+      "type": "string",
+      "title": "Sku"
+     },
+     "barcode": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Barcode"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "category_id": {
+      "type": "integer",
+      "title": "Category Id"
+     },
+     "category_name": {
+      "type": "string",
+      "title": "Category Name"
+     },
+     "variety": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Variety"
+     },
+     "description": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Description"
+     },
+     "base_unit_id": {
+      "type": "integer",
+      "title": "Base Unit Id"
+     },
+     "base_unit_code": {
+      "type": "string",
+      "title": "Base Unit Code"
+     },
+     "min_stock": {
+      "type": "string",
+      "title": "Min Stock"
+     },
+     "stock": {
+      "type": "string",
+      "title": "Stock"
+     },
+     "low_stock": {
+      "type": "boolean",
+      "title": "Low Stock"
+     },
+     "current_price": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Current Price"
+     },
+     "tax_rate": {
+      "type": "string",
+      "title": "Tax Rate"
+     },
+     "usual_supplier_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Usual Supplier Id"
+     },
+     "is_perishable": {
+      "type": "boolean",
+      "title": "Is Perishable"
+     },
+     "is_active": {
+      "type": "boolean",
+      "title": "Is Active"
+     },
+     "presentations": {
+      "items": {
+       "$ref": "#/components/schemas/PresentationOut"
+      },
+      "type": "array",
+      "title": "Presentations"
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+     },
+     "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Updated At"
+     },
+     "avg_cost": {
+      "type": "string",
+      "title": "Avg Cost"
+     },
+     "stock_value": {
+      "type": "string",
+      "title": "Stock Value"
+     },
+     "target_margin": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Target Margin"
+     },
+     "effective_margin": {
+      "type": "string",
+      "title": "Effective Margin"
+     },
+     "gross_margin_at_current_price": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Gross Margin At Current Price"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "sku",
+     "barcode",
+     "name",
+     "category_id",
+     "category_name",
+     "variety",
+     "description",
+     "base_unit_id",
+     "base_unit_code",
+     "min_stock",
+     "stock",
+     "low_stock",
+     "current_price",
+     "tax_rate",
+     "usual_supplier_id",
+     "is_perishable",
+     "is_active",
+     "presentations",
+     "created_at",
+     "updated_at",
+     "avg_cost",
+     "stock_value",
+     "target_margin",
+     "effective_margin",
+     "gross_margin_at_current_price"
+    ],
+    "title": "ProductCostOut",
+    "description": "Vista con costos: solo para usuarios con permiso costos.ver."
+   },
+   "ProductCreate": {
+    "properties": {
+     "sku": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._-]{1,40}$",
+      "title": "Sku"
+     },
+     "barcode": {
+      "anyOf": [
+       {
+        "type": "string",
+        "pattern": "^[0-9A-Za-z-]{4,64}$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Barcode"
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "category_id": {
+      "type": "integer",
+      "title": "Category Id"
+     },
+     "variety": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 80
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Variety"
+     },
+     "description": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Description"
+     },
+     "base_unit_id": {
+      "type": "integer",
+      "title": "Base Unit Id"
+     },
+     "min_stock": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Min Stock",
+      "default": "0"
+     },
+     "target_margin": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMaximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Target Margin"
+     },
+     "tax_rate": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMaximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Tax Rate",
+      "default": "0"
+     },
+     "usual_supplier_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Usual Supplier Id"
+     },
+     "is_perishable": {
+      "type": "boolean",
+      "title": "Is Perishable",
+      "default": true
+     },
+     "current_price": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Current Price",
+      "description": "Precio inicial por unidad base. Requiere permiso de aprobación de precios."
+     },
+     "presentations": {
+      "items": {
+       "$ref": "#/components/schemas/PresentationIn"
+      },
+      "type": "array",
+      "title": "Presentations",
+      "default": []
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "sku",
+     "name",
+     "category_id",
+     "base_unit_id"
+    ],
+    "title": "ProductCreate"
+   },
+   "ProductOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "sku": {
+      "type": "string",
+      "title": "Sku"
+     },
+     "barcode": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Barcode"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "category_id": {
+      "type": "integer",
+      "title": "Category Id"
+     },
+     "category_name": {
+      "type": "string",
+      "title": "Category Name"
+     },
+     "variety": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Variety"
+     },
+     "description": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Description"
+     },
+     "base_unit_id": {
+      "type": "integer",
+      "title": "Base Unit Id"
+     },
+     "base_unit_code": {
+      "type": "string",
+      "title": "Base Unit Code"
+     },
+     "min_stock": {
+      "type": "string",
+      "title": "Min Stock"
+     },
+     "stock": {
+      "type": "string",
+      "title": "Stock"
+     },
+     "low_stock": {
+      "type": "boolean",
+      "title": "Low Stock"
+     },
+     "current_price": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Current Price"
+     },
+     "tax_rate": {
+      "type": "string",
+      "title": "Tax Rate"
+     },
+     "usual_supplier_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Usual Supplier Id"
+     },
+     "is_perishable": {
+      "type": "boolean",
+      "title": "Is Perishable"
+     },
+     "is_active": {
+      "type": "boolean",
+      "title": "Is Active"
+     },
+     "presentations": {
+      "items": {
+       "$ref": "#/components/schemas/PresentationOut"
+      },
+      "type": "array",
+      "title": "Presentations"
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+     },
+     "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Updated At"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "sku",
+     "barcode",
+     "name",
+     "category_id",
+     "category_name",
+     "variety",
+     "description",
+     "base_unit_id",
+     "base_unit_code",
+     "min_stock",
+     "stock",
+     "low_stock",
+     "current_price",
+     "tax_rate",
+     "usual_supplier_id",
+     "is_perishable",
+     "is_active",
+     "presentations",
+     "created_at",
+     "updated_at"
+    ],
+    "title": "ProductOut"
+   },
+   "ProductUpdate": {
+    "properties": {
+     "sku": {
+      "anyOf": [
+       {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9._-]{1,40}$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Sku"
+     },
+     "barcode": {
+      "anyOf": [
+       {
+        "type": "string",
+        "pattern": "^[0-9A-Za-z-]{4,64}$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Barcode"
+     },
+     "name": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 120,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Name"
+     },
+     "category_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Category Id"
+     },
+     "variety": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 80
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Variety"
+     },
+     "description": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Description"
+     },
+     "min_stock": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Min Stock"
+     },
+     "target_margin": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMaximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Target Margin"
+     },
+     "tax_rate": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMaximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Tax Rate"
+     },
+     "usual_supplier_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Usual Supplier Id"
+     },
+     "is_perishable": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Is Perishable"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "ProductUpdate"
+   },
+   "PurchaseIn": {
+    "properties": {
+     "supplier_id": {
+      "type": "integer",
+      "title": "Supplier Id"
+     },
+     "purchase_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Purchase Date"
+     },
+     "invoice_number": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 60
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Invoice Number"
+     },
+     "notes": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Notes"
+     },
+     "freight": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Freight",
+      "default": "0"
+     },
+     "other_costs": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Other Costs",
+      "default": "0"
+     },
+     "discount": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Discount",
+      "default": "0"
+     },
+     "allocation_method": {
+      "$ref": "#/components/schemas/AllocationMethod",
+      "default": "valor"
+     },
+     "lines": {
+      "items": {
+       "$ref": "#/components/schemas/PurchaseLineIn"
+      },
+      "type": "array",
+      "maxItems": 200,
+      "minItems": 1,
+      "title": "Lines"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "supplier_id",
+     "purchase_date",
+     "lines"
+    ],
+    "title": "PurchaseIn"
+   },
+   "PurchaseLineIn": {
+    "properties": {
+     "product_id": {
+      "type": "integer",
+      "title": "Product Id"
+     },
+     "product_unit_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Product Unit Id",
+      "description": "Presentación de compra; por defecto la base"
+     },
+     "quantity": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMinimum": 0.0
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Quantity"
+     },
+     "unit_price": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Unit Price",
+      "description": "Precio por presentación, antes de impuestos"
+     },
+     "line_discount": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Line Discount",
+      "default": "0"
+     },
+     "tax_rate": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMaximum": 1.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Tax Rate",
+      "description": "Por defecto, la tasa del producto"
+     },
+     "waste_qty": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Waste Qty",
+      "description": "Merma detectada al recibir, en unidad base",
+      "default": "0"
+     },
+     "expiry_date": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Expiry Date"
+     },
+     "lot_code": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 40
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lot Code"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "product_id",
+     "quantity",
+     "unit_price"
+    ],
+    "title": "PurchaseLineIn"
+   },
+   "PurchaseLineOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "line_no": {
+      "type": "integer",
+      "title": "Line No"
+     },
+     "product_id": {
+      "type": "integer",
+      "title": "Product Id"
+     },
+     "product_name": {
+      "type": "string",
+      "title": "Product Name",
+      "default": ""
+     },
+     "product_unit_id": {
+      "type": "integer",
+      "title": "Product Unit Id"
+     },
+     "unit_name": {
+      "type": "string",
+      "title": "Unit Name",
+      "default": ""
+     },
+     "quantity": {
+      "type": "string",
+      "title": "Quantity"
+     },
+     "unit_price": {
+      "type": "string",
+      "title": "Unit Price"
+     },
+     "line_discount": {
+      "type": "string",
+      "title": "Line Discount"
+     },
+     "tax_rate": {
+      "type": "string",
+      "title": "Tax Rate"
+     },
+     "waste_qty": {
+      "type": "string",
+      "title": "Waste Qty"
+     },
+     "expiry_date": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Expiry Date"
+     },
+     "lot_code": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lot Code"
+     },
+     "quantity_base": {
+      "type": "string",
+      "title": "Quantity Base"
+     },
+     "usable_qty": {
+      "type": "string",
+      "title": "Usable Qty"
+     },
+     "net_amount": {
+      "type": "string",
+      "title": "Net Amount"
+     },
+     "allocated_extra": {
+      "type": "string",
+      "title": "Allocated Extra"
+     },
+     "tax_amount": {
+      "type": "string",
+      "title": "Tax Amount"
+     },
+     "total_cost": {
+      "type": "string",
+      "title": "Total Cost"
+     },
+     "unit_cost_base": {
+      "type": "string",
+      "title": "Unit Cost Base"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "line_no",
+     "product_id",
+     "product_unit_id",
+     "quantity",
+     "unit_price",
+     "line_discount",
+     "tax_rate",
+     "waste_qty",
+     "expiry_date",
+     "lot_code",
+     "quantity_base",
+     "usable_qty",
+     "net_amount",
+     "allocated_extra",
+     "tax_amount",
+     "total_cost",
+     "unit_cost_base"
+    ],
+    "title": "PurchaseLineOut"
+   },
+   "PurchaseOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "supplier_id": {
+      "type": "integer",
+      "title": "Supplier Id"
+     },
+     "supplier_name": {
+      "type": "string",
+      "title": "Supplier Name",
+      "default": ""
+     },
+     "status": {
+      "$ref": "#/components/schemas/PurchaseStatus"
+     },
+     "purchase_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Purchase Date"
+     },
+     "invoice_number": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Invoice Number"
+     },
+     "notes": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Notes"
+     },
+     "freight": {
+      "type": "string",
+      "title": "Freight"
+     },
+     "other_costs": {
+      "type": "string",
+      "title": "Other Costs"
+     },
+     "discount": {
+      "type": "string",
+      "title": "Discount"
+     },
+     "allocation_method": {
+      "$ref": "#/components/schemas/AllocationMethod"
+     },
+     "subtotal": {
+      "type": "string",
+      "title": "Subtotal"
+     },
+     "tax_total": {
+      "type": "string",
+      "title": "Tax Total"
+     },
+     "total": {
+      "type": "string",
+      "title": "Total"
+     },
+     "created_by_id": {
+      "type": "integer",
+      "title": "Created By Id"
+     },
+     "confirmed_by_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Confirmed By Id"
+     },
+     "confirmed_at": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Confirmed At"
+     },
+     "cancelled_by_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cancelled By Id"
+     },
+     "cancelled_at": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cancelled At"
+     },
+     "cancel_reason": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cancel Reason"
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+     },
+     "lines": {
+      "items": {
+       "$ref": "#/components/schemas/PurchaseLineOut"
+      },
+      "type": "array",
+      "title": "Lines"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "supplier_id",
+     "status",
+     "purchase_date",
+     "invoice_number",
+     "notes",
+     "freight",
+     "other_costs",
+     "discount",
+     "allocation_method",
+     "subtotal",
+     "tax_total",
+     "total",
+     "created_by_id",
+     "confirmed_by_id",
+     "confirmed_at",
+     "cancelled_by_id",
+     "cancelled_at",
+     "cancel_reason",
+     "created_at",
+     "lines"
+    ],
+    "title": "PurchaseOut"
+   },
+   "PurchaseStatus": {
+    "type": "string",
+    "enum": [
+     "borrador",
+     "confirmada",
+     "anulada"
+    ],
+    "title": "PurchaseStatus"
+   },
+   "QuoteFlag": {
+    "type": "string",
+    "enum": [
+     "normal",
+     "variacion_extraordinaria"
+    ],
+    "title": "QuoteFlag"
+   },
+   "QuoteOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "market_product_id": {
+      "type": "integer",
+      "title": "Market Product Id"
+     },
+     "market": {
+      "type": "string",
+      "title": "Market"
+     },
+     "price_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Price Date"
+     },
+     "price": {
+      "type": "string",
+      "title": "Price"
+     },
+     "price_min": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Price Min"
+     },
+     "price_max": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Price Max"
+     },
+     "published_at": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Published At"
+     },
+     "fetched_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Fetched At"
+     },
+     "variation_rate": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Variation Rate"
+     },
+     "flag": {
+      "$ref": "#/components/schemas/QuoteFlag"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "market_product_id",
+     "market",
+     "price_date",
+     "price",
+     "price_min",
+     "price_max",
+     "published_at",
+     "fetched_at",
+     "variation_rate",
+     "flag"
+    ],
+    "title": "QuoteOut"
+   },
+   "ReferenceOut": {
+    "properties": {
+     "mapping_id": {
+      "type": "integer",
+      "title": "Mapping Id"
+     },
+     "product_id": {
+      "type": "integer",
+      "title": "Product Id"
+     },
+     "product_name": {
+      "type": "string",
+      "title": "Product Name",
+      "default": ""
+     },
+     "market_product_id": {
+      "type": "integer",
+      "title": "Market Product Id"
+     },
+     "market_product_name": {
+      "type": "string",
+      "title": "Market Product Name"
+     },
+     "market": {
+      "type": "string",
+      "title": "Market"
+     },
+     "quote_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Quote Id"
+     },
+     "price_date": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Price Date"
+     },
+     "source_price": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Source Price"
+     },
+     "source_unit": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Source Unit"
+     },
+     "unit_confirmed": {
+      "type": "boolean",
+      "title": "Unit Confirmed"
+     },
+     "price_per_base_unit": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Price Per Base Unit"
+     },
+     "days_old": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Days Old"
+     },
+     "is_stale": {
+      "type": "boolean",
+      "title": "Is Stale"
+     },
+     "flag": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Flag"
+     },
+     "variation_rate": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Variation Rate"
+     },
+     "usable": {
+      "type": "boolean",
+      "title": "Usable"
+     },
+     "reason": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Reason"
+     },
+     "unit_cost": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Unit Cost"
+     },
+     "cost_vs_market": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cost Vs Market"
+     }
+    },
+    "type": "object",
+    "required": [
+     "mapping_id",
+     "product_id",
+     "market_product_id",
+     "market_product_name",
+     "market",
+     "quote_id",
+     "price_date",
+     "source_price",
+     "source_unit",
+     "unit_confirmed",
+     "price_per_base_unit",
+     "days_old",
+     "is_stale",
+     "flag",
+     "variation_rate",
+     "usable",
+     "reason"
+    ],
+    "title": "ReferenceOut"
+   },
+   "ResetPasswordIn": {
+    "properties": {
+     "new_password": {
+      "type": "string",
+      "maxLength": 200,
+      "title": "New Password",
+      "description": "Contraseña temporal"
+     }
+    },
+    "type": "object",
+    "required": [
+     "new_password"
+    ],
+    "title": "ResetPasswordIn"
+   },
+   "ReverseIn": {
+    "properties": {
+     "motivo": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 3,
+      "title": "Motivo"
+     }
+    },
+    "type": "object",
+    "required": [
+     "motivo"
+    ],
+    "title": "ReverseIn"
+   },
+   "Role": {
+    "type": "string",
+    "enum": [
+     "propietario",
+     "administrador",
+     "empleado"
+    ],
+    "title": "Role"
+   },
+   "SaleIn": {
+    "properties": {
+     "payment_method": {
+      "$ref": "#/components/schemas/PaymentMethod",
+      "default": "efectivo"
+     },
+     "customer_name": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 120
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Customer Name"
+     },
+     "reference": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 60
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Reference"
+     },
+     "notes": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Notes"
+     },
+     "lines": {
+      "items": {
+       "$ref": "#/components/schemas/SaleLineIn"
+      },
+      "type": "array",
+      "maxItems": 200,
+      "minItems": 1,
+      "title": "Lines"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "lines"
+    ],
+    "title": "SaleIn",
+    "description": "El cliente NO envía precios: el servidor aplica el precio vigente."
+   },
+   "SaleLineIn": {
+    "properties": {
+     "product_id": {
+      "type": "integer",
+      "title": "Product Id"
+     },
+     "product_unit_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Product Unit Id",
+      "description": "Presentación de venta; por defecto la base"
+     },
+     "quantity": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMinimum": 0.0
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Quantity"
+     },
+     "discount": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "title": "Discount",
+      "description": "Descuento en pesos sobre la línea",
+      "default": "0"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "product_id",
+     "quantity"
+    ],
+    "title": "SaleLineIn"
+   },
+   "SaleLineOut": {
+    "properties": {
+     "line_no": {
+      "type": "integer",
+      "title": "Line No"
+     },
+     "product_id": {
+      "type": "integer",
+      "title": "Product Id"
+     },
+     "product_unit_id": {
+      "type": "integer",
+      "title": "Product Unit Id"
+     },
+     "product_name": {
+      "type": "string",
+      "title": "Product Name"
+     },
+     "unit_name": {
+      "type": "string",
+      "title": "Unit Name"
+     },
+     "quantity": {
+      "type": "string",
+      "title": "Quantity"
+     },
+     "quantity_base": {
+      "type": "string",
+      "title": "Quantity Base"
+     },
+     "unit_price": {
+      "type": "string",
+      "title": "Unit Price"
+     },
+     "gross_amount": {
+      "type": "string",
+      "title": "Gross Amount"
+     },
+     "discount": {
+      "type": "string",
+      "title": "Discount"
+     },
+     "net_amount": {
+      "type": "string",
+      "title": "Net Amount"
+     },
+     "tax_rate": {
+      "type": "string",
+      "title": "Tax Rate"
+     },
+     "tax_amount": {
+      "type": "string",
+      "title": "Tax Amount"
+     },
+     "unit_cost_base": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Unit Cost Base"
+     },
+     "cost_amount": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cost Amount"
+     }
+    },
+    "type": "object",
+    "required": [
+     "line_no",
+     "product_id",
+     "product_unit_id",
+     "product_name",
+     "unit_name",
+     "quantity",
+     "quantity_base",
+     "unit_price",
+     "gross_amount",
+     "discount",
+     "net_amount",
+     "tax_rate",
+     "tax_amount"
+    ],
+    "title": "SaleLineOut"
+   },
+   "SaleOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "status": {
+      "$ref": "#/components/schemas/SaleStatus"
+     },
+     "sold_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Sold At"
+     },
+     "customer_name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Customer Name"
+     },
+     "payment_method": {
+      "$ref": "#/components/schemas/PaymentMethod"
+     },
+     "reference": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Reference"
+     },
+     "notes": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Notes"
+     },
+     "gross_total": {
+      "type": "string",
+      "title": "Gross Total"
+     },
+     "discount_total": {
+      "type": "string",
+      "title": "Discount Total"
+     },
+     "total": {
+      "type": "string",
+      "title": "Total"
+     },
+     "tax_total": {
+      "type": "string",
+      "title": "Tax Total"
+     },
+     "created_by_id": {
+      "type": "integer",
+      "title": "Created By Id"
+     },
+     "created_by_name": {
+      "type": "string",
+      "title": "Created By Name",
+      "default": ""
+     },
+     "cancelled_at": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cancelled At"
+     },
+     "cancel_reason": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cancel Reason"
+     },
+     "lines": {
+      "items": {
+       "$ref": "#/components/schemas/SaleLineOut"
+      },
+      "type": "array",
+      "title": "Lines"
+     },
+     "cost_total": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cost Total"
+     },
+     "gross_margin": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Gross Margin",
+      "description": "Margen bruto estimado (no es utilidad neta)"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "status",
+     "sold_at",
+     "customer_name",
+     "payment_method",
+     "reference",
+     "notes",
+     "gross_total",
+     "discount_total",
+     "total",
+     "tax_total",
+     "created_by_id",
+     "cancelled_at",
+     "cancel_reason",
+     "lines"
+    ],
+    "title": "SaleOut"
+   },
+   "SaleStatus": {
+    "type": "string",
+    "enum": [
+     "confirmada",
+     "anulada"
+    ],
+    "title": "SaleStatus"
+   },
+   "SuggestionOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "product_id": {
+      "type": "integer",
+      "title": "Product Id"
+     },
+     "product_name": {
+      "type": "string",
+      "title": "Product Name",
+      "default": ""
+     },
+     "base_unit_code": {
+      "type": "string",
+      "title": "Base Unit Code",
+      "default": ""
+     },
+     "status": {
+      "$ref": "#/components/schemas/SuggestionStatus"
+     },
+     "unit_cost": {
+      "type": "string",
+      "title": "Unit Cost"
+     },
+     "margin": {
+      "type": "string",
+      "title": "Margin"
+     },
+     "commission_rate": {
+      "type": "string",
+      "title": "Commission Rate"
+     },
+     "tax_rate": {
+      "type": "string",
+      "title": "Tax Rate"
+     },
+     "raw_price": {
+      "type": "string",
+      "title": "Raw Price"
+     },
+     "suggested_price": {
+      "type": "string",
+      "title": "Suggested Price"
+     },
+     "current_price": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Current Price"
+     },
+     "change_rate": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Change Rate"
+     },
+     "market_price_base": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Market Price Base"
+     },
+     "origin": {
+      "type": "string",
+      "title": "Origin"
+     },
+     "explanation": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Explanation"
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+     },
+     "decided_by_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Decided By Id"
+     },
+     "decided_at": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Decided At"
+     },
+     "decision_note": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Decision Note"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "product_id",
+     "status",
+     "unit_cost",
+     "margin",
+     "commission_rate",
+     "tax_rate",
+     "raw_price",
+     "suggested_price",
+     "current_price",
+     "change_rate",
+     "market_price_base",
+     "origin",
+     "explanation",
+     "created_at",
+     "decided_by_id",
+     "decided_at",
+     "decision_note"
+    ],
+    "title": "SuggestionOut"
+   },
+   "SuggestionStatus": {
+    "type": "string",
+    "enum": [
+     "pendiente",
+     "aprobada",
+     "rechazada",
+     "reemplazada"
+    ],
+    "title": "SuggestionStatus"
+   },
+   "SupplierIn": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "tax_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "pattern": "^[0-9]{5,15}(-[0-9])?$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Tax Id",
+      "description": "NIT o cédula"
+     },
+     "contact_name": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 120
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Contact Name"
+     },
+     "phone": {
+      "anyOf": [
+       {
+        "type": "string",
+        "pattern": "^[0-9 +()-]{7,40}$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Phone"
+     },
+     "email": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "email"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Email"
+     },
+     "address": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 200
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Address"
+     },
+     "notes": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Notes"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "name"
+    ],
+    "title": "SupplierIn"
+   },
+   "SupplierOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "tax_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Tax Id"
+     },
+     "contact_name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Contact Name"
+     },
+     "phone": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Phone"
+     },
+     "email": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Email"
+     },
+     "address": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Address"
+     },
+     "notes": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Notes"
+     },
+     "is_active": {
+      "type": "boolean",
+      "title": "Is Active"
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+     },
+     "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Updated At"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "name",
+     "tax_id",
+     "contact_name",
+     "phone",
+     "email",
+     "address",
+     "notes",
+     "is_active",
+     "created_at",
+     "updated_at"
+    ],
+    "title": "SupplierOut"
+   },
+   "SupplierUpdate": {
+    "properties": {
+     "name": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 120,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Name"
+     },
+     "tax_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "pattern": "^[0-9]{5,15}(-[0-9])?$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Tax Id",
+      "description": "NIT o cédula"
+     },
+     "contact_name": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 120
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Contact Name"
+     },
+     "phone": {
+      "anyOf": [
+       {
+        "type": "string",
+        "pattern": "^[0-9 +()-]{7,40}$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Phone"
+     },
+     "email": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "email"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Email"
+     },
+     "address": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 200
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Address"
+     },
+     "notes": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Notes"
+     },
+     "is_active": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Is Active"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "SupplierUpdate"
+   },
+   "UnitCreate": {
+    "properties": {
+     "code": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]{1,20}$",
+      "title": "Code"
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "kind": {
+      "$ref": "#/components/schemas/UnitKind"
+     },
+     "kg_equivalent": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMinimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Kg Equivalent"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "code",
+     "name",
+     "kind"
+    ],
+    "title": "UnitCreate"
+   },
+   "UnitKind": {
+    "type": "string",
+    "enum": [
+     "masa",
+     "conteo",
+     "empaque"
+    ],
+    "title": "UnitKind"
+   },
+   "UnitOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "code": {
+      "type": "string",
+      "title": "Code"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "kind": {
+      "$ref": "#/components/schemas/UnitKind"
+     },
+     "kg_equivalent": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Kg Equivalent"
+     },
+     "is_active": {
+      "type": "boolean",
+      "title": "Is Active"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "code",
+     "name",
+     "kind",
+     "kg_equivalent",
+     "is_active"
+    ],
+    "title": "UnitOut"
+   },
+   "UserCreate": {
+    "properties": {
+     "username": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9._-]{3,50}$",
+      "title": "Username"
+     },
+     "full_name": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 2,
+      "title": "Full Name"
+     },
+     "role": {
+      "$ref": "#/components/schemas/Role"
+     },
+     "new_password": {
+      "type": "string",
+      "maxLength": 200,
+      "title": "New Password",
+      "description": "Contraseña temporal"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "username",
+     "full_name",
+     "role",
+     "new_password"
+    ],
+    "title": "UserCreate"
+   },
+   "UserOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "username": {
+      "type": "string",
+      "title": "Username"
+     },
+     "full_name": {
+      "type": "string",
+      "title": "Full Name"
+     },
+     "role": {
+      "$ref": "#/components/schemas/Role"
+     },
+     "is_active": {
+      "type": "boolean",
+      "title": "Is Active"
+     },
+     "must_change_password": {
+      "type": "boolean",
+      "title": "Must Change Password"
+     },
+     "last_login_at": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Last Login At"
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+     },
+     "grants": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Grants",
+      "default": []
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "username",
+     "full_name",
+     "role",
+     "is_active",
+     "must_change_password",
+     "last_login_at",
+     "created_at"
+    ],
+    "title": "UserOut"
+   },
+   "UserUpdate": {
+    "properties": {
+     "full_name": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 120,
+        "minLength": 2
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Full Name"
+     },
+     "role": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Role"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "is_active": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Is Active"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "UserUpdate"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   }
+  }
+ }
+}

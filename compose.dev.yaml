@@ -1,0 +1,8 @@
+# Solo desarrollo: expone PostgreSQL y la API en 127.0.0.1 (no accesibles desde la red).
+services:
+  db:
+    ports:
+      - "127.0.0.1:${DB_DEV_PORT:-55432}:5432"
+  api:
+    ports:
+      - "127.0.0.1:8000:8000"

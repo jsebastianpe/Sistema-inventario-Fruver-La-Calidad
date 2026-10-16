@@ -1,0 +1,81 @@
+# Configuración base. Desarrollo:  docker compose -f compose.yaml -f compose.dev.yaml up -d
+#                     Producción:  docker compose -f compose.yaml -f compose.prod.yaml up -d
+name: fruver
+
+x-app-env: &app-env
+  APP_ENV: ${APP_ENV:-development}
+  APP_TIMEZONE: ${APP_TIMEZONE:-America/Bogota}
+  DATABASE_URL: postgresql+psycopg://app_user:${APP_USER_PASSWORD:?}@db:5432/${APP_DB_NAME:-inventario}
+  MIGRATIONS_DATABASE_URL: postgresql+psycopg://app_owner:${APP_OWNER_PASSWORD:?}@db:5432/${APP_DB_NAME:-inventario}
+  SESSION_TTL_HOURS: ${SESSION_TTL_HOURS:-12}
+  SESSION_IDLE_MINUTES: ${SESSION_IDLE_MINUTES:-120}
+  LOGIN_MAX_ATTEMPTS: ${LOGIN_MAX_ATTEMPTS:-5}
+  LOGIN_WINDOW_MINUTES: ${LOGIN_WINDOW_MINUTES:-15}
+  CORS_ORIGINS: ${CORS_ORIGINS:-}
+  MARKET_SYNC_HOUR: ${MARKET_SYNC_HOUR:-15}
+  MARKET_SYNC_MINUTE: ${MARKET_SYNC_MINUTE:-30}
+  SIPSA_URL: ${SIPSA_URL:-https://appweb.dane.gov.co/sipsaWS/SrvSipsaUpraBeanService}
+
+x-logging: &logging
+  driver: json-file
+  options: { max-size: "10m", max-file: "5" }
+
+services:
+  db:
+    image: postgres:17.5-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_SUPERUSER_PASSWORD:?}
+      POSTGRES_DB: postgres
+      APP_DB_NAME: ${APP_DB_NAME:-inventario}
+      APP_TEST_DB_NAME: ${APP_TEST_DB_NAME:-}
+      APP_OWNER_PASSWORD: ${APP_OWNER_PASSWORD:?}
+      APP_USER_PASSWORD: ${APP_USER_PASSWORD:?}
+      TZ: UTC
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./deploy/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    logging: *logging
+    networks: [backend]
+    # Sin "ports": la base de datos NO se publica fuera de la red interna.
+
+  api:
+    build: { context: ., dockerfile: backend/Dockerfile }
+    image: fruver-app:${APP_VERSION:-local}
+    restart: unless-stopped
+    environment: *app-env
+    # Las migraciones se aplican al arrancar (rol app_owner); la app atiende con app_user.
+    command: ["sh", "-c", "alembic upgrade head && exec uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2 --proxy-headers --forwarded-allow-ips='*'"]
+    logging: *logging
+    depends_on:
+      db: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health').status==200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+      start_interval: 2s
+    networks: [backend]
+
+  worker:
+    image: fruver-app:${APP_VERSION:-local}
+    restart: unless-stopped
+    environment: *app-env
+    logging: *logging
+    command: ["python", "-m", "app.worker.main"]
+    depends_on:
+      api: { condition: service_healthy }
+    networks: [backend]
+
+volumes:
+  pgdata:
+
+networks:
+  backend:
