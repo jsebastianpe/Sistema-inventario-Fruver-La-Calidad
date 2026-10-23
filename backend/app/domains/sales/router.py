@@ -1,7 +1,7 @@
-from datetime import date
+from datetime import date, timedelta
 
 from fastapi import APIRouter, Depends, Header, Query, Response
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.core.db import get_db
@@ -13,7 +13,11 @@ from app.core.timeutil import local_day_bounds, today_local
 from app.domains.auth.deps import CurrentUser, require
 from app.domains.auth.models import User
 from app.domains.auth.permissions import P
+from app.domains.catalog import service as catalog_service
+from app.domains.catalog.models import Product
+from app.domains.catalog.schemas import ProductCostOut, ProductOut
 from app.domains.sales import service
+from app.domains.settings.service import get_commercial_settings
 from app.domains.sales.models import Sale, SaleLine, SaleStatus
 from app.domains.sales.schemas import CancelIn, SaleIn, SaleOut
 
@@ -41,6 +45,22 @@ def preview_sale(data: SaleIn, cu: CurrentUser = Depends(require(P.VENTAS_REGIST
                  db: Session = Depends(get_db)):
     """Calcula precios y totales con las reglas del servidor, sin registrar nada."""
     return exact(service.preview(db, data, cu))
+
+
+@router.get("/frecuentes", response_model=list[ProductCostOut | ProductOut])
+def frequent_products(limite: int = Query(12, ge=1, le=30), dias: int = Query(30, ge=1, le=365),
+                      cu: CurrentUser = Depends(require(P.VENTAS_REGISTRAR)), db: Session = Depends(get_db)):
+    """Productos activos con precio más vendidos (por número de líneas) en los últimos `dias`."""
+    lo, _ = local_day_bounds(today_local() - timedelta(days=dias - 1), today_local())
+    n = func.count(SaleLine.id)
+    ids = db.scalars(
+        select(Product.id).join(SaleLine, SaleLine.product_id == Product.id)
+        .join(Sale, Sale.id == SaleLine.sale_id)
+        .where(Sale.status == SaleStatus.CONFIRMADA, Sale.sold_at >= lo, Product.is_active.is_(True),
+               Product.current_price > 0)
+        .group_by(Product.id).order_by(n.desc(), func.min(Product.name)).limit(limite)).all()
+    cfg = get_commercial_settings(db)
+    return [catalog_service.to_out(db, db.get(Product, pid), cu, cfg) for pid in ids]
 
 
 @router.post("", response_model=SaleOut, status_code=201)

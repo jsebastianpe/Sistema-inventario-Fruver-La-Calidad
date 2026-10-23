@@ -13,10 +13,11 @@ Estar preparado para un piloto, estar desplegado en producción y haber superado
 
 | Tipo de verificación | Resultado |
 |---|---|
-| Pruebas automatizadas del backend (`pytest`, contra PostgreSQL real con el rol sin privilegios de la aplicación) | **86 de 86 pasan** |
+| Pruebas automatizadas del backend (`pytest`, contra PostgreSQL real con el rol sin privilegios de la aplicación) | **106 de 106 pasan** (2026-10-23; incluye 20 de venta por peso en `tests/test_sales_weight.py`) |
 | Migraciones: `upgrade` → `downgrade base` → `upgrade` y `alembic check` (modelos = esquema) | Sin diferencias |
 | Pruebas de interfaz en navegador real (Edge, con Playwright), escritorio 1366 px y teléfono 390 px | 10 secciones sin errores JS ni desbordamiento horizontal |
-| Flujo completo por la interfaz contra los contenedores Docker (`e2e/test_flow.py`) | 16 de 16 pasos correctos |
+| Flujo completo por la interfaz contra los contenedores Docker (`e2e/test_flow.py`) | 16 de 16 pasos correctos (2026-10-23, actualizado al nuevo punto de venta; ejecutado contra la base de pruebas) |
+| Punto de venta por peso en Edge (escritorio 1366 px, teléfono 390 px, tema oscuro) | 11 de 11 pasos: captura en g/kg/unidad/bulto con teclado y teclado en pantalla, edición, aviso de existencias, cambio de precio, cobro, existencias descontadas una vez, comprobante, sin desbordamiento horizontal |
 | Integración real con SIPSA (DANE) | Descarga de 114 MB y 390.656 registros; 12.469 cotizaciones cargadas (60 días); 0 inválidas. Repetición: 0 duplicados |
 | Stack Docker (db + api + worker) | api *healthy*, worker con latido, contenedores sin privilegios de root |
 | Solicitud manual de actualización: API → worker en contenedor → SIPSA | Correcta |
@@ -63,7 +64,10 @@ Estar preparado para un piloto, estar desplegado en producción y haber superado
 **Ventas**
 * Precio tomado del servidor (el cliente no puede enviar precios) con instantánea de precio y costo.
 * Impuesto contenido y descuentos autorizados por rol.
-* Atomicidad: si una línea falla, no se registra nada.
+* Atomicidad: si una línea falla, no se registra nada (verificado también simulando una falla de la base de datos a mitad del registro).
+* **Venta por peso**: captura en g, kg o lb convertida por el servidor a la unidad base; importe = cantidad × factor × precio con un único redondeo (antes el precio por gramo se redondeaba primero a centavos).
+* **Precio esperado**: si el precio cambia entre agregar y cobrar, la venta se rechaza (`precio_cambiado`) hasta que el cajero acepta el precio vigente.
+* Punto de venta tipo báscula: panel de captura con teclado numérico en pantalla, conversión e importe en vivo, productos frecuentes, atajos de teclado (F2, Enter, Esc), comprobante imprimible.
 * Idempotencia incluso con 5 reintentos simultáneos.
 * Anulación que devuelve al mismo costo y a los mismos lotes.
 * Los empleados ven solo sus ventas, sin costos.
@@ -147,7 +151,7 @@ Estar preparado para un piloto, estar desplegado en producción y haber superado
 **Mejoras posibles (no solicitadas en el alcance actual)**
 * Recuperación por correo.
 * Varias bodegas.
-* Impresión de tirilla de venta.
+* Impresión directa en impresora térmica (hoy el comprobante se imprime desde el navegador).
 * Lector de código de barras dedicado.
 * Facturación electrónica mediante un proveedor autorizado.
 

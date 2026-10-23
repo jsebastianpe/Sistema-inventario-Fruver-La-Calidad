@@ -13,6 +13,13 @@ class SaleLineIn(BaseModel):
     product_unit_id: int | None = Field(None, description="Presentación de venta; por defecto la base")
     quantity: PositiveQty
     discount: MoneyIn = Field(Decimal(0), description="Descuento en pesos sobre la línea")
+    weight_unit: str | None = Field(
+        None, pattern=r"^[a-z0-9_]{1,20}$",
+        description="Código de la unidad de masa en que se pesó (g, kg, lb…). El servidor convierte "
+                    "a la unidad base del producto; solo para productos cuya unidad base es de masa.")
+    expected_price: MoneyIn | None = Field(
+        None, description="Precio por unidad base que vio el cajero. Si el precio vigente es distinto, "
+                          "la venta se rechaza (precio_cambiado). No fija el precio: solo lo verifica.")
 
 
 class SaleIn(BaseModel):

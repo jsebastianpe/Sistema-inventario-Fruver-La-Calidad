@@ -57,13 +57,19 @@ El **margen bruto estimado** no es la ganancia neta: no descuenta arriendo, nóm
 
 ## 5. Ventas
 
-1. Pestaña **Registrar venta**: busque el producto por nombre, código o código de barras (también funciona con el teclado: flecha abajo y Enter).
-2. Elija la presentación y la cantidad. Se aceptan decimales con coma (2,5). Si aplica un descuento, escríbalo en pesos.
-3. El total lo calcula el servidor con el precio vigente. Si no hay existencias suficientes o el descuento supera el máximo autorizado, el botón se bloquea y aparece el motivo.
-4. **Registrar venta** y confirme. Si se pierde la conexión justo al registrar, puede volver a intentar sin riesgo: la misma venta no se registra dos veces.
-5. **Historial de ventas**: consulte por fechas. Un administrador puede **anular** una venta (con motivo); la mercancía vuelve al inventario.
+La pestaña **Registrar venta** funciona como una báscula de mostrador:
 
-El precio de cada venta queda guardado tal como se cobró, aunque después cambie el precio del producto. Este registro **no es una factura electrónica** DIAN.
+1. **Busque el producto** por nombre, código o código de barras (F2 lleva al buscador; Enter elige el primer resultado) o toque uno de los **frecuentes** (los más vendidos de los últimos 30 días).
+2. Aparece el panel de captura con el precio vigente, la existencia y si el producto **se vende por peso** o por unidad o presentación.
+3. **Escriba el peso o la cantidad** con el teclado o con el teclado numérico de la pantalla. En productos por peso elija **g** o **kg** (el sistema recuerda la última elección). Use coma para los decimales y no escriba separador de miles: en kg, "1,25" y "1.25" son 1,25 kg. Debajo se ve la conversión (1.250 g = 1,25 kg) y el **importe** se actualiza al instante. Para bultos, cajas u otras presentaciones, elija la presentación y escriba cuántas.
+4. **Agregar a la venta** (o Enter). El cursor vuelve al buscador para el siguiente producto. Esc cancela la captura.
+5. En **Venta actual** puede **editar** o quitar líneas y escribir un descuento en pesos por línea. El servidor revisa precios, existencias y descuentos: si algo no cuadra, la línea se marca en rojo, aparece el motivo y no se puede cobrar.
+   * Si el precio de un producto **cambió** después de agregarlo, aparece el aviso con el precio anterior y el nuevo. Pulse **Usar precios vigentes** para continuar.
+6. Elija el **medio de pago**, pulse **Cobrar $…** y confirme. Si se pierde la conexión justo al cobrar, vuelva a pulsar Cobrar: la misma venta no se registra dos veces.
+7. Tras registrar, puede **Imprimir comprobante** (tirilla interna). El historial también permite reimprimirlo.
+8. **Historial de ventas**: consulte por fechas. Un administrador puede **anular** una venta (con motivo); la mercancía vuelve al inventario.
+
+El inventario solo se descuenta al confirmar el cobro, nunca al agregar al carrito. El precio de cada venta queda guardado tal como se cobró, aunque después cambie el precio del producto. Este registro **no es una factura electrónica** DIAN.
 
 ## 6. Inventario
 

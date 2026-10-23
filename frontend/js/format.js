@@ -52,6 +52,63 @@ export function parseDecimal(input) {
   return /^-?\d+(\.\d+)?$/.test(s) ? s : null;
 }
 
+// ------------------------------------------------------------------ decimales exactos
+// Aritmética con BigInt sobre textos decimales ("1250", "0.001") para que el importe que ve el
+// cajero sea idéntico al que calcula el servidor (Decimal, mitad hacia arriba). Nunca usa float.
+
+function splitDec(v) {
+  const s = String(v);
+  const neg = s.startsWith("-");
+  const [i, f = ""] = (neg ? s.slice(1) : s).split(".");
+  const n = BigInt((i || "0") + f);
+  return { n: neg ? -n : n, scale: f.length };
+}
+
+function joinDec(n, places) {
+  const neg = n < 0n;
+  const t = (neg ? -n : n).toString().padStart(places + 1, "0");
+  return (neg ? "-" : "") + (places ? `${t.slice(0, -places)}.${t.slice(-places)}` : t);
+}
+
+function roundHalfUp(n, from, to) {
+  if (from <= to) return n * 10n ** BigInt(to - from);
+  const div = 10n ** BigInt(from - to);
+  const abs = n < 0n ? -n : n;
+  let q = abs / div;
+  if ((abs % div) * 2n >= div) q += 1n;
+  return n < 0n ? -q : q;
+}
+
+/** Producto de varios decimales, redondeado una sola vez a `places` decimales (mitad hacia arriba). */
+export function decMul(values, places = 2) {
+  let n = 1n;
+  let scale = 0;
+  for (const v of values) { const d = splitDec(v); n *= d.n; scale += d.scale; }
+  return joinDec(roundHalfUp(n, scale, places), places);
+}
+
+/** a ÷ b con `places` decimales SOLO si el resultado es exacto; si no, null. */
+export function decDivExact(a, b, places = 4) {
+  const x = splitDec(a);
+  const y = splitDec(b);
+  if (y.n === 0n) return null;
+  const num = x.n * 10n ** BigInt(y.scale + places);
+  const den = y.n * 10n ** BigInt(x.scale);
+  return num % den === 0n ? joinDec(num / den, places) : null;
+}
+
+export function decSum(values, places = 2) {
+  return joinDec(values.reduce((acc, v) => { const d = splitDec(v); return acc + roundHalfUp(d.n, d.scale, places); }, 0n), places);
+}
+
+export function decCmp(a, b) {
+  const x = splitDec(a);
+  const y = splitDec(b);
+  const s = Math.max(x.scale, y.scale);
+  const d = x.n * 10n ** BigInt(s - x.scale) - y.n * 10n ** BigInt(s - y.scale);
+  return d === 0n ? 0 : d > 0n ? 1 : -1;
+}
+
 export const MOVEMENT_LABELS = {
   inicial: "Existencia inicial", compra: "Compra", venta: "Venta", devolucion_cliente: "Devolución de cliente",
   devolucion_proveedor: "Devolución a proveedor", merma: "Merma / deterioro", ajuste_entrada: "Ajuste de entrada",

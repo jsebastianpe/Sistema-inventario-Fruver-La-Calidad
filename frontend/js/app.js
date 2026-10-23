@@ -116,6 +116,8 @@ async function logout() {
   renderLogin("Sesión cerrada.");
 }
 
+let routeSeq = 0;
+
 async function route() {
   if (!session.me) return;
   if (session.me.usuario.must_change_password) {
@@ -127,11 +129,13 @@ async function route() {
   nav.querySelectorAll("a").forEach((a) => { if (a.dataset.path === r.path) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
   document.title = `${r.label} · Gestión Comercial`;
   clear(main, loadingEl());
+  const seq = ++routeSeq;  // una navegación posterior invalida esta (no debe pintar ni robar el foco)
   try {
     const mod = await r.load();
+    if (seq !== routeSeq) return;
     clear(main);
     await mod.render(main);
-    main.focus({ preventScroll: true });
+    if (seq === routeSeq) main.focus({ preventScroll: true });
   } catch (err) {
     clear(main, h("div", { class: "notice danger" }, "No se pudo cargar la sección. ", err.message || ""));
     showError(err);

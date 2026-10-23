@@ -2,6 +2,14 @@
 
 * El precio de cada línea se toma del precio vigente del producto en el servidor
   (precio por unidad base × factor de la presentación) y queda guardado como instantánea.
+* Importe de la línea = cantidad × factor × precio por unidad base, redondeado UNA sola vez a
+  centavos (mitad hacia arriba). `unit_price` es informativo (precio de la presentación a centavos);
+  no se usa como factor intermedio, para no arrastrar redondeos en presentaciones pequeñas (gramos).
+* Venta por peso: con `weight_unit` (g, kg, lb…) la cantidad pesada se convierte a la unidad base
+  con las equivalencias de masa del catálogo. La conversión debe ser exacta a 4 decimales
+  (0,1 g en kg); si no lo es, se rechaza en lugar de redondear en silencio.
+* Si el cliente envía `expected_price` y difiere del vigente, la venta se rechaza (precio_cambiado)
+  para que el cajero no cobre un valor distinto al que vio.
 * Los precios de venta incluyen impuestos; el impuesto contenido es  neto − neto / (1 + tasa).
 * El costo de la línea es el costo promedio ponderado vigente al momento de vender.
 * Margen bruto de la línea = (neto − impuesto) − costo.  No es utilidad neta.
@@ -13,16 +21,16 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.core.errors import AppError, Conflict, Forbidden, NotFound
-from app.core.numbers import ONE, ZERO, money, rate
+from app.core.numbers import ONE, ZERO, money, qty, rate
 from app.core.timeutil import now_utc
 from app.domains.audit.service import audit
 from app.domains.auth.deps import CurrentUser
 from app.domains.auth.permissions import P
-from app.domains.catalog.models import Product
+from app.domains.catalog.models import Product, ProductUnit, Unit, UnitKind
 from app.domains.inventory import service as inv
 from app.domains.inventory.models import MovementType, StockMovement
 from app.domains.sales.models import Sale, SaleLine, SaleStatus
-from app.domains.sales.schemas import SaleIn
+from app.domains.sales.schemas import SaleIn, SaleLineIn
 from app.domains.settings.service import get_commercial_settings
 
 REF = "venta"
@@ -45,6 +53,26 @@ def _existing(db: Session, key: str, cu: CurrentUser) -> Sale | None:
     return prev
 
 
+def _weighed_quantity(db: Session, i: int, product: Product, ln: SaleLineIn,
+                      pu: ProductUnit) -> Decimal:
+    """Convierte el peso capturado a la unidad base (la presentación debe ser la base)."""
+    base_unit = product.base_unit
+    if base_unit.kind != UnitKind.MASA:
+        raise AppError(f"Línea {i}: '{product.name}' no se vende por peso", code="unidad_invalida")
+    if not pu.is_base:
+        raise AppError(f"Línea {i}: el peso se registra sobre la unidad base, no sobre '{pu.name}'",
+                       code="presentacion_invalida")
+    unit = db.scalar(select(Unit).where(Unit.code == ln.weight_unit, Unit.is_active.is_(True)))
+    if unit is None or unit.kind != UnitKind.MASA:
+        raise AppError(f"Línea {i}: '{ln.weight_unit}' no es una unidad de masa válida",
+                       code="unidad_invalida")
+    exact = ln.quantity * unit.kg_equivalent / base_unit.kg_equivalent
+    if qty(exact) != exact:
+        raise AppError(f"Línea {i}: el peso tiene más precisión de la que se registra "
+                       f"(0,0001 {base_unit.code})", code="cantidad_invalida")
+    return qty(exact)
+
+
 def price_lines(db: Session, data: SaleIn, cu: CurrentUser, cfg) -> dict:
     """Calcula precios y totales de una venta (misma regla para previsualizar y para registrar)."""
     priced = []
@@ -55,16 +83,19 @@ def price_lines(db: Session, data: SaleIn, cu: CurrentUser, cfg) -> dict:
         if product.current_price is None or product.current_price <= 0:
             raise AppError(f"'{product.name}' no tiene precio de venta aprobado", code="sin_precio")
         pu = inv.resolve_presentation(db, product, ln.product_unit_id, purpose="venta")
-        base = inv.to_base(ln.quantity, pu)
+        quantity = _weighed_quantity(db, i, product, ln, pu) if ln.weight_unit else ln.quantity
+        base = inv.to_base(quantity, pu)
         unit_price = money(product.current_price * pu.factor_to_base)
-        gross = money(ln.quantity * unit_price)
+        gross = money(quantity * pu.factor_to_base * product.current_price)
         discount = money(ln.discount)
         if discount > gross:
             raise AppError(f"Línea {i}: el descuento supera el valor de la línea", code="descuento_invalido")
         net = gross - discount
         tax = money(net - net / (ONE + product.tax_rate))
-        priced.append({"ln": ln, "product": product, "pu": pu, "base": base, "unit_price": unit_price,
-                       "gross": gross, "discount": discount, "net": net, "tax": tax})
+        price_changed = ln.expected_price is not None and ln.expected_price != product.current_price
+        priced.append({"ln": ln, "product": product, "pu": pu, "quantity": quantity, "base": base,
+                       "unit_price": unit_price, "gross": gross, "discount": discount, "net": net,
+                       "tax": tax, "price_changed": price_changed})
     gross_total = sum((x["gross"] for x in priced), ZERO)
     discount_total = sum((x["discount"] for x in priced), ZERO)
     disc_rate = discount_total / gross_total if gross_total > 0 else ZERO
@@ -82,7 +113,8 @@ def preview(db: Session, data: SaleIn, cu: CurrentUser) -> dict:
         bal = inv.balance_of(db, x["product"].id)
         out_lines.append({
             "product_id": x["product"].id, "product_name": x["product"].name, "unit_name": x["pu"].name,
-            "quantity": x["ln"].quantity, "quantity_base": x["base"], "unit_price": x["unit_price"],
+            "quantity": x["quantity"], "quantity_base": x["base"], "unit_price": x["unit_price"],
+            "price_base": x["product"].current_price, "price_changed": x["price_changed"],
             "gross_amount": x["gross"], "discount": x["discount"], "net_amount": x["net"],
             "tax_amount": x["tax"], "available": bal.quantity,
             "stock_ok": cfg.allow_negative_stock or bal.quantity >= x["base"]})
@@ -97,6 +129,14 @@ def create_sale(db: Session, data: SaleIn, cu: CurrentUser, idempotency_key: str
         return prev, False
     cfg = get_commercial_settings(db)
     r = price_lines(db, data, cu, cfg)
+    changed = [x for x in r["lines"] if x["price_changed"]]
+    if changed:
+        names = ", ".join(f"'{x['product'].name}'" for x in changed)
+        raise Conflict(
+            f"El precio de {names} cambió desde que se agregó a la venta. Revise el total y confirme de nuevo.",
+            code="precio_cambiado",
+            details=[{"producto_id": x["product"].id, "esperado": str(x["ln"].expected_price),
+                      "vigente": str(x["product"].current_price)} for x in changed])
     if not r["discount_authorized"]:
         raise Forbidden(
             f"El descuento ({r['discount_rate'] * 100:.2f} %) supera el máximo autorizado "
@@ -125,15 +165,15 @@ def create_sale(db: Session, data: SaleIn, cu: CurrentUser, idempotency_key: str
 
     tax_total = cost_total = ZERO
     for i, x in enumerate(priced, 1):
-        ln, product, pu, base = x["ln"], x["product"], x["pu"], x["base"]
+        product, pu, quantity, base = x["product"], x["pu"], x["quantity"], x["base"]
         unit_price, gross, discount, net, tax = x["unit_price"], x["gross"], x["discount"], x["net"], x["tax"]
         mv = inv.record_outbound(
-            db, product=product, movement_type=MovementType.VENTA, quantity=ln.quantity,
+            db, product=product, movement_type=MovementType.VENTA, quantity=quantity,
             quantity_base=base, pu=pu, user_id=cu.id, reference_type=REF, reference_id=sale.id,
             allow_negative=cfg.allow_negative_stock)
         sale.lines.append(SaleLine(
             line_no=i, product_id=product.id, product_unit_id=pu.id, product_name=product.name,
-            unit_name=pu.name, quantity=ln.quantity, quantity_base=base, unit_price=unit_price,
+            unit_name=pu.name, quantity=quantity, quantity_base=base, unit_price=unit_price,
             gross_amount=gross, discount=discount, net_amount=net, tax_rate=product.tax_rate,
             tax_amount=tax, unit_cost_base=mv.unit_cost, cost_amount=mv.total_cost))
         tax_total += tax

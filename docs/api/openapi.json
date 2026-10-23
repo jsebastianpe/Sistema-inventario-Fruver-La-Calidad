@@ -2189,6 +2189,75 @@
     }
    }
   },
+  "/api/v1/ventas/frecuentes": {
+   "get": {
+    "tags": [
+     "Ventas"
+    ],
+    "summary": "Frequent Products",
+    "description": "Productos activos con precio más vendidos (por número de líneas) en los últimos `dias`.",
+    "operationId": "frequent_products_api_v1_ventas_frecuentes_get",
+    "parameters": [
+     {
+      "name": "limite",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 30,
+       "minimum": 1,
+       "default": 12,
+       "title": "Limite"
+      }
+     },
+     {
+      "name": "dias",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 365,
+       "minimum": 1,
+       "default": 30,
+       "title": "Dias"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "anyOf": [
+           {
+            "$ref": "#/components/schemas/ProductCostOut"
+           },
+           {
+            "$ref": "#/components/schemas/ProductOut"
+           }
+          ]
+         },
+         "title": "Response Frequent Products Api V1 Ventas Frecuentes Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/api/v1/ventas": {
    "post": {
     "tags": [
@@ -6836,6 +6905,35 @@
       "title": "Discount",
       "description": "Descuento en pesos sobre la línea",
       "default": "0"
+     },
+     "weight_unit": {
+      "anyOf": [
+       {
+        "type": "string",
+        "pattern": "^[a-z0-9_]{1,20}$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Weight Unit",
+      "description": "Código de la unidad de masa en que se pesó (g, kg, lb…). El servidor convierte a la unidad base del producto; solo para productos cuya unidad base es de masa."
+     },
+     "expected_price": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0.0
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Expected Price",
+      "description": "Precio por unidad base que vio el cajero. Si el precio vigente es distinto, la venta se rechaza (precio_cambiado). No fija el precio: solo lo verifica."
      }
     },
     "additionalProperties": false,

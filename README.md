@@ -12,7 +12,7 @@ Sistema web de gestión comercial para un negocio colombiano de frutas, verduras
 
 Moneda COP, zona horaria `America/Bogota`, interfaz en español.
 
-> **Estado (2026-10-16):** implementado y verificado en desarrollo (86 pruebas automatizadas, pruebas de interfaz en navegador e integración real con SIPSA). Apto para iniciar un **piloto** tras el despliegue en un servidor. **No** está desplegado en producción y **no** ha pasado una auditoría de seguridad. Ver [estado y pendientes](docs/08-estado-verificacion-y-pendientes.md).
+> **Estado (2026-10-16):** implementado y verificado en desarrollo (106 pruebas automatizadas, pruebas de interfaz en navegador e integración real con SIPSA). Apto para iniciar un **piloto** tras el despliegue en un servidor. **No** está desplegado en producción y **no** ha pasado una auditoría de seguridad. Ver [estado y pendientes](docs/08-estado-verificacion-y-pendientes.md).
 
 ## Arquitectura
 
@@ -62,7 +62,7 @@ Despliegue, respaldos, restauración, rotación de secretos e incidentes: [docs/
 | [06 Despliegue y operación](docs/06-despliegue-y-operacion.md) | Instalación, servidor, actualización, respaldo, restauración, seguridad |
 | [07 Manual de usuario](docs/07-manual-de-usuario.md) | Uso diario del sistema |
 | [08 Estado y pendientes](docs/08-estado-verificacion-y-pendientes.md) | Funciones verificadas, limitaciones, pendientes, costos |
-| [API (OpenAPI)](docs/api/openapi.json) | 66 operaciones REST |
+| [API (OpenAPI)](docs/api/openapi.json) | 67 operaciones REST |
 
 ## Aviso
 

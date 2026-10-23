@@ -228,12 +228,62 @@ dialog::backdrop { background: rgb(0 0 0 / .45); }
 .login-card .brand { justify-content: center; font-size: 1.1rem; }
 
 /* ----------------------------------------------------------------- venta (POS) */
-.pos { display: grid; grid-template-columns: 1fr 360px; gap: 1rem; align-items: start; }
-@media (max-width: 1000px) { .pos { grid-template-columns: 1fr; } }
+.pos { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 420px); gap: 1rem; align-items: start; }
+@media (max-width: 1000px) { .pos { grid-template-columns: minmax(0, 1fr); } }
 .pos .total { font-size: 2rem; font-weight: 800; font-variant-numeric: tabular-nums; }
 .search-results { border: 1px solid var(--border); border-radius: 8px; max-height: 280px; overflow-y: auto; margin-top: .4rem; background: var(--surface); }
 .search-results button { display: flex; width: 100%; justify-content: space-between; gap: 1rem; border: 0; border-bottom: 1px solid var(--border); background: none; padding: .55rem .7rem; font: inherit; color: inherit; text-align: left; cursor: pointer; }
 .search-results button:hover, .search-results button:focus { background: var(--primary-soft); }
+.pos-col { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; align-content: start; min-width: 0; }
+.pos-col > .card + .card { margin-top: 0; }
+.text-danger { color: var(--danger); }
+.spacer { flex: 1; }
+.btn.big { min-height: 52px; font-size: 1.05rem; padding: .6rem 1.2rem; font-weight: 600; }
+.btn.block { width: 100%; }
+.quick { display: flex; flex-wrap: wrap; gap: .5rem; }
+.quick:empty { display: none; }
+.quick-title { width: 100%; }
+.btn.chip { flex-direction: column; align-items: flex-start; gap: 0; min-height: 52px; padding: .35rem .8rem; }
+.seg { display: flex; flex-wrap: wrap; gap: .35rem; }
+.seg-btn { min-width: 64px; min-height: 44px; }
+.scale-head { display: flex; justify-content: space-between; gap: .5rem 1rem; flex-wrap: wrap; align-items: baseline; margin-bottom: .75rem; }
+.scale-head h2 { margin-bottom: .25rem; }
+.scale-price { font-size: 1.2rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.scale-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(190px, 250px); gap: 1rem; align-items: start; }
+.scale .field .label { font-weight: 600; font-size: .88rem; }
+.scale-input { font-size: 2.4rem; font-weight: 700; text-align: right; min-height: 68px; font-variant-numeric: tabular-nums; border-width: 2px; border-color: var(--primary); }
+.scale-amount { font-size: 2.4rem; font-weight: 800; color: var(--primary-strong); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; }
+.keypad .btn { min-height: 56px; font-size: 1.35rem; font-weight: 600; }
+.keypad .btn.wide { grid-column: 1 / -1; font-size: 1rem; min-height: 44px; }
+.cart-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; max-height: 46vh; overflow-y: auto; }
+.cart-line { border: 1px solid var(--border); border-radius: 8px; padding: .55rem .7rem; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .25rem .75rem; }
+.cart-line.problem { border-color: var(--danger); background: var(--danger-soft); }
+.cart-line .sub { font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cart-line .line-actions { grid-column: 1 / -1; display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; }
+.cart-line .line-actions input { width: 96px; min-height: 32px; padding: .2rem .45rem; }
+.sum-rows { display: grid; grid-template-columns: 1fr auto; gap: .3rem 1rem; margin: 0; }
+.sum-rows dt { color: var(--muted); }
+.sum-rows dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 640px) {
+  .quick { flex-wrap: nowrap; overflow-x: auto; padding-bottom: .25rem; }
+  .quick .chip { flex: 0 0 auto; }
+  .quick-title { display: none; }
+  .scale-grid { grid-template-columns: 1fr; }
+  .scale-input, .scale-amount { font-size: 2rem; }
+}
+
+/* ----------------------------------------------------------------- comprobante (impresión) */
+.receipt { display: none; }
+@media print {
+  body.printing > :not(.receipt) { display: none !important; }
+  body.printing .receipt { display: block; width: 72mm; color: #000; background: #fff; font: 12px/1.35 ui-monospace, Consolas, monospace; }
+  .receipt h2 { font-size: 14px; text-align: center; }
+  .receipt table { width: 100%; border-collapse: collapse; margin: .4rem 0; }
+  .receipt td, .receipt th { border: 0; padding: 1px 0; background: none; color: #000; }
+  .receipt .totals { border-top: 1px dashed #000; }
+  .receipt .small { font-size: inherit; }
+}
 
 /* ----------------------------------------------------------------- gráficas */
 .chart svg { width: 100%; height: 180px; display: block; }

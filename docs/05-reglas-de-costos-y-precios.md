@@ -17,6 +17,7 @@ Este documento describe **exactamente** lo que calcula el sistema. Cada regla es
 * El factor solo se deduce automáticamente entre unidades de masa con equivalencia fija (kg = 1; g = 0,001; libra = 0,5; arroba = 12,5). Para empaques es **obligatorio** indicarlo, porque no todos los bultos pesan lo mismo.
 * Conversión en **un solo paso**: `cantidad_base = cantidad × factor`, redondeada a 4 decimales. No se encadenan conversiones.
 * Cambiar el factor de una presentación no altera el pasado: cada movimiento guarda su cantidad en unidad base.
+* **Venta por peso** (`sales/service.py`): el cajero escribe el peso en g, kg o lb (`weight_unit`) y el servidor lo convierte a la unidad base con las equivalencias de masa. La conversión debe ser exacta a 4 decimales de la unidad base (0,1 g si la base es kg); si no lo es, se rechaza en lugar de redondear en silencio. La venta guarda la cantidad **normalizada** (p. ej. 1.250 g → 1,2500 kg).
 * **Libra = 500 g**, que es el uso comercial habitual en Colombia (no la libra internacional de 453,59 g). El propietario puede cambiarlo (ver `04-decisiones-pendientes.md`, D9).
 
 ## 3. Costo de una compra (`purchases/calc.py`)
@@ -90,6 +91,8 @@ precio_sugerido     = redondeo_comercial( precio_sin_impuesto × (1 + tasa_impue
 * `costo_unitario` es el **costo promedio ponderado real**. El mercado **no** sustituye al costo.
 * `margen` es el margen bruto objetivo sobre el precio sin impuestos, con 0 ≤ margen < 1. Se toma del producto; si no tiene, de la categoría; si tampoco, el valor general.
 * `comisión` representa costos variables proporcionales al precio (por ejemplo, la comisión del datáfono). Debe cumplirse margen + comisión < 1.
+* **Importe de una línea de venta** = cantidad × factor de la presentación × precio por unidad base, redondeado **una sola vez** a centavos (mitad hacia arriba). Ej.: 1.250 g a $3.333/kg = 1,25 × 3.333 = $4.166,25. El `unit_price` guardado (precio de la presentación a centavos) es informativo y no se usa como factor intermedio: con una presentación "Gramo" se cobraría $3,33 × 1.250 = $4.162,50. El total de la venta es la suma de las líneas ya redondeadas, por lo que coincide con lo mostrado y lo guardado. La interfaz replica la misma regla con aritmética decimal exacta (BigInt) solo para mostrar el importe al instante; el valor oficial es el del servidor.
+* **Precio esperado**: la interfaz envía el precio por unidad base que vio el cajero (`expected_price`). Si el precio vigente cambió, el servidor rechaza la venta (`precio_cambiado`) y la interfaz pide aceptar el precio nuevo antes de cobrar. El cliente nunca fija el precio.
 * Los precios de venta **incluyen impuestos** y se guardan por unidad base. El impuesto contenido en una venta es `neto − neto / (1 + tasa)`.
 * **Redondeo comercial**: primero a centavos y luego al múltiplo configurado (50 COP por defecto) hacia arriba, abajo o al más cercano. El redondeo a centavos evita que residuos como 1699,9999… salten al siguiente múltiplo; esa falla se detectó y se corrigió en las pruebas.
 * Se rechazan costos menores o iguales a cero, márgenes fuera de rango y combinaciones con margen + comisión ≥ 1.
