@@ -12,7 +12,7 @@ Sistema web de gestión comercial para un negocio colombiano de frutas, verduras
 
 Moneda COP, zona horaria `America/Bogota`, interfaz en español.
 
-> **Estado (2026-10-16):** implementado y verificado en desarrollo (106 pruebas automatizadas, pruebas de interfaz en navegador e integración real con SIPSA). Apto para iniciar un **piloto** tras el despliegue en un servidor. **No** está desplegado en producción y **no** ha pasado una auditoría de seguridad. Ver [estado y pendientes](docs/08-estado-verificacion-y-pendientes.md).
+> **Estado (2026-10-16):** implementado y verificado en desarrollo (107 pruebas automatizadas, pruebas de interfaz en navegador e integración real con SIPSA). Apto para iniciar un **piloto** tras el despliegue en un servidor. **No** está desplegado en producción y **no** ha pasado una auditoría de seguridad. Ver [estado y pendientes](docs/08-estado-verificacion-y-pendientes.md).
 
 ## Arquitectura
 

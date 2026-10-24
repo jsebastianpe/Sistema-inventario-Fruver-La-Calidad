@@ -11,6 +11,16 @@ def test_health(client):
     assert r.json()["estado"] == "ok"
 
 
+def test_cache_headers(client):
+    """La API no se guarda; el frontend se guarda pero se revalida, para no quedar con CSS/JS viejos."""
+    assert client.get("/api/v1/health").headers["Cache-Control"] == "no-store"
+    assert client.get("/").headers["Cache-Control"] == "no-cache"
+    r = client.get("/static/css/app.css")
+    assert r.status_code == 200 and r.headers["Cache-Control"] == "no-cache" and r.headers["ETag"]
+    again = client.get("/static/css/app.css", headers={"If-None-Match": r.headers["ETag"]})
+    assert again.status_code == 304 and not again.content          # sin cambios: no se vuelve a descargar
+
+
 def test_endpoints_require_authentication(client):
     for method, url in [("get", "/api/v1/auth/me"), ("get", "/api/v1/usuarios"),
                         ("get", "/api/v1/configuracion"), ("patch", "/api/v1/configuracion")]:

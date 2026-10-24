@@ -13,7 +13,7 @@ Estar preparado para un piloto, estar desplegado en producción y haber superado
 
 | Tipo de verificación | Resultado |
 |---|---|
-| Pruebas automatizadas del backend (`pytest`, contra PostgreSQL real con el rol sin privilegios de la aplicación) | **106 de 106 pasan** (2026-10-23; incluye 20 de venta por peso en `tests/test_sales_weight.py`) |
+| Pruebas automatizadas del backend (`pytest`, contra PostgreSQL real con el rol sin privilegios de la aplicación) | **107 de 107 pasan** (2026-10-24; incluye 20 de venta por peso en `tests/test_sales_weight.py`) |
 | Migraciones: `upgrade` → `downgrade base` → `upgrade` y `alembic check` (modelos = esquema) | Sin diferencias |
 | Pruebas de interfaz en navegador real (Edge, con Playwright), escritorio 1366 px y teléfono 390 px | 10 secciones sin errores JS ni desbordamiento horizontal |
 | Flujo completo por la interfaz contra los contenedores Docker (`e2e/test_flow.py`) | 16 de 16 pasos correctos (2026-10-23, actualizado al nuevo punto de venta; ejecutado contra la base de pruebas) |

@@ -50,6 +50,10 @@ def create_app() -> FastAPI:
         )
         if request.url.path.startswith("/api/"):
             h.setdefault("Cache-Control", "no-store")
+        elif request.url.path == "/" or request.url.path.startswith("/static/"):
+            # El navegador conserva su copia pero la revalida (ETag → 304) antes de usarla:
+            # tras una actualización nadie queda con CSS/JS viejos sin tener que pulsar Ctrl+F5.
+            h.setdefault("Cache-Control", "no-cache")
         if cfg.is_production:
             h.setdefault("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
         return response
